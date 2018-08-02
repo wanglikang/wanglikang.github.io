@@ -5,19 +5,20 @@
   
 
   
-  <title>hello-hexo | 渣渣笔记</title>
+  <title>数据库学习之用户管理.md | 渣渣笔记</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="搭建在github上的博客">
+  <meta name="description" content="mysql数据库学习之用户管理创建用户 create user ‘用户名‘@’ip’ IDENTIFIED  BY ‘密码’ grant select on 数据库名.表名 to ‘username‘@’登录主机’ identified by ‘密码’  以上两种方法都会向mysql.user表中插入数据,但是使用第二种方法可以同时进行权限赋予 修改密码 set password=password">
+<meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hello-hexo">
-<meta property="og:url" content="http://wanglikang.github.io/2018/08/01/hello-hexo-1/index.html">
+<meta property="og:title" content="数据库学习之用户管理.md">
+<meta property="og:url" content="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/index.html">
 <meta property="og:site_name" content="渣渣笔记">
-<meta property="og:description" content="搭建在github上的博客">
+<meta property="og:description" content="mysql数据库学习之用户管理创建用户 create user ‘用户名‘@’ip’ IDENTIFIED  BY ‘密码’ grant select on 数据库名.表名 to ‘username‘@’登录主机’ identified by ‘密码’  以上两种方法都会向mysql.user表中插入数据,但是使用第二种方法可以同时进行权限赋予 修改密码 set password=password">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-08-01T13:58:19.403Z">
+<meta property="og:updated_time" content="2018-08-02T11:29:07.968Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hello-hexo">
-<meta name="twitter:description" content="搭建在github上的博客">
+<meta name="twitter:title" content="数据库学习之用户管理.md">
+<meta name="twitter:description" content="mysql数据库学习之用户管理创建用户 create user ‘用户名‘@’ip’ IDENTIFIED  BY ‘密码’ grant select on 数据库名.表名 to ‘username‘@’登录主机’ identified by ‘密码’  以上两种方法都会向mysql.user表中插入数据,但是使用第二种方法可以同时进行权限赋予 修改密码 set password=password">
   
     <link rel="alternate" href="/atom.xml" title="渣渣笔记" type="application/atom+xml">
   
@@ -68,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-hexo-1" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-数据库学习之用户管理-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/08/01/hello-hexo-1/" class="article-date">
-  <time datetime="2018-08-01T13:58:19.000Z" itemprop="datePublished">2018-08-01</time>
+    <a href="/2018/08/02/数据库学习之用户管理-md/" class="article-date">
+  <time datetime="2018-08-02T09:11:48.000Z" itemprop="datePublished">2018-08-02</time>
 </a>
     
   </div>
@@ -82,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      hello-hexo
+      数据库学习之用户管理.md
     </h1>
   
 
@@ -90,32 +91,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="mysql数据库学习之用户管理"><a href="#mysql数据库学习之用户管理" class="headerlink" title="mysql数据库学习之用户管理"></a>mysql数据库学习之用户管理</h2><h4 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h4><ul>
+<li>create user ‘用户名‘@’ip’ IDENTIFIED  BY ‘密码’</li>
+<li>grant select on 数据库名.表名 to ‘username‘@’登录主机’ identified by ‘密码’</li>
+</ul>
+<p>以上两种方法都会向mysql.user表中插入数据,但是使用第二种方法可以同时进行权限赋予</p>
+<h4 id="修改密码"><a href="#修改密码" class="headerlink" title="修改密码"></a>修改密码</h4><ul>
+<li>set password=password(‘新密码’)</li>
+<li>update mysql.user set password=password(‘新密码’) where user=’用户名’ ,然后 flush privileges</li>
+</ul>
+<p>第一种方法可以设置当前用户的密码</p>
+<p>第二种方法可以设置多有用户的密码，多用于root用户操作</p>
+<h4 id="用户的权限管理"><a href="#用户的权限管理" class="headerlink" title="用户的权限管理"></a>用户的权限管理</h4><p>使用GRANT命令进行 </p>
+<ul>
+<li>grant 权限名称 on 数据库名.表名 to ‘username‘@’登录主机’ identified by ‘密码’<br>权限名称可以是很多种：<br>SELECT ,UPDATE,DELETE等</li>
+</ul>
+<h5 id="回收权限"><a href="#回收权限" class="headerlink" title="回收权限"></a>回收权限</h5><p>关键字 REVOKE:语法同GRANT</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo-1/" data-id="cjkcceq9v00006co4mvmke7eo" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/" data-id="cjkcceqbr00026co46tqjd1yj" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2018/08/01/java基础/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/08/01/hello-hexo/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2018/08/01/java基础/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hello hexo!!!</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>
