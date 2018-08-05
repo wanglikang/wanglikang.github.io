@@ -69,6 +69,117 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-884-索引处的解码字符串" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/884-索引处的解码字符串/" class="article-date">
+  <time datetime="2018-08-05T07:13:36.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/884-索引处的解码字符串/">884.索引处的解码字符串</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>package cn.wlk.keepcoding.leetcode;</p>
+<p>import org.junit.Test;</p>
+<p>import javax.swing.*;<br>import java.util.ArrayList;<br>import java.util.List;</p>
+<h2 id="884-索引处的解码字符串"><a href="#884-索引处的解码字符串" class="headerlink" title="884. 索引处的解码字符串"></a>884. 索引处的解码字符串</h2><h3 id="Weekly-Contest-96"><a href="#Weekly-Contest-96" class="headerlink" title="Weekly Contest 96"></a>Weekly Contest 96</h3><div class="question-content __reader_view_article_wrap_09301391875507758__"><br>              <p></p><p>给定一个编码字符串 <code>S</code>。为了找出<em>解码</em>字符串并将其写入磁带，从编码字符串中<code>每次读取一个字符</code>，并采取以下步骤：</p><br><br><ul><br>    <li>如果所读的字符是字母，则将该字母写在磁带上。</li><br>    <li>如果所读的字符是数字（例如 <code>d</code>），则整个当前磁带总共会被重复写&nbsp;<code>d-1</code> 次。</li><br></ul><br><br><p>现在，对于给定的编码字符串 <code>S</code> 和索引 <code>K</code>，查找并返回解码字符串中的第&nbsp;<code>K</code>&nbsp;个字母。</p><br><br><p>&nbsp;</p><br><br><p><strong>示例 1：</strong></p><br><br><pre><strong>输入：</strong>S = “leet2code3”, K = 10<br><strong>输出：</strong>“o”<br><strong>解释：</strong><br>解码后的字符串为 “leetleetcodeleetleetcodeleetleetcode”。<br>字符串中的第 10 个字母是 “o”。<br></pre><br><br><p><strong>示例 2：</strong></p><br><br><pre><strong>输入：</strong>S = “ha22”, K = 5<br><strong>输出：</strong>“h”<br><strong>解释：</strong><br>解码后的字符串为 “hahahaha”。第 5 个字母是 “h”。<br></pre><br><br><p><strong>示例 3：</strong></p><br><br><pre><strong>输入：</strong>S = “a2345678999999999999999”, K = 1<br><strong>输出：</strong>“a”<br><strong>解释：</strong><br>解码后的字符串为 “a” 重复 8301530446056247680 次。第 1 个字母是 “a”。<br></pre><br><br><p>&nbsp;</p><br><br><p><strong>提示：</strong></p><br><br><ol><br>    <li><code>2 &lt;= S.length &lt;= 100</code></li><br>    <li><code>S</code>&nbsp;只包含小写字母与数字 <code>2</code> 到 <code>9</code> 。</li><br>    <li><code>S</code>&nbsp;以字母开头。</li><br>    <li><code>1 &lt;= K &lt;= 10^9</code></li><br>    <li>解码后的字符串保证少于&nbsp;<code>2^63</code>&nbsp;个字母。</li><br></ol><br><p></p><br>            </div>
+
+
+<p> 给定一个编码字符串 S。为了找出解码字符串并将其写入磁带，从编码字符串中每次读取一个字符，并采取以下步骤：</p>
+<p>如果所读的字符是字母，则将该字母写在磁带上。</p>
+<p> 如果所读的字符是数字（例如 d），则整个当前磁带总共会被重复写 d-1 次。</p>
+<p> 现在，对于给定的编码字符串 S 和索引 K，查找并返回解码字符串中的第 K 个字母。</p>
+<p> 示例 1：</p>
+<p>  输入：S = “leet2code3”, K = 10</p>
+<p>  输出：”o”</p>
+<p>  解释：</p>
+<p>  解码后的字符串为 “leetleetcodeleetleetcodeleetleetcode”。</p>
+<p>  字符串中的第 10 个字母是 “o”。</p>
+<p>  示例 2：</p>
+<p> 输入：S = “ha22”, K = 5</p>
+<p> 输出：”h”</p>
+<p> 解释：</p>
+<p>  解码后的字符串为 “hahahaha”。第 5 个字母是 “h”。</p>
+<p>  示例 3：</p>
+<p> 输入：S = “a2345678999999999999999”, K = 1</p>
+<p> 输出：”a”</p>
+<p>  解释：</p>
+<p>  解码后的字符串为 “a” 重复 8301530446056247680 次。第 1 个字母是 “a”。</p>
+<p> 提示：</p>
+<p>  2 &lt;= S.length &lt;= 100</p>
+<p>  S 只包含小写字母与数字 2 到 9 。</p>
+<p>  S 以字母开头。</p>
+<p>  1 &lt;= K &lt;= 10^9</p>
+<p>  解码后的字符串保证少于 2^63 个字母。</p>
+<p>解法：</p>
+<ul>
+<li>方法一：直接根据题意构造出来解密后的字符串，然后取第K个，，，结果比赛的时候超时了</li>
+<li><p>方法二：直接通过数学运算，，求出是哪个字母</p>
+<pre><code>  思路如下：
+  在解密阶段反向模拟加密：
+      将解密过程中遇见数字n的时候想象为添加了一个一个的框，每个框里的内容就是当前的字符串，共添加了n-1个框
+      将解密过程中遇见字符ch时，就是简单的为当前字符串追加了一个字符ch
+
+假设对于加密字符串S =&quot;hah22&quot;,K=5;
+加密字符串的char数组为chars
+预处理阶段：
+    设变量currLen = 1,i=0;
+    i代表当前处理的第几个加密字符
+    currLen代表了当前解密后的字符串的长度，仅仅存储一个长度即可，不用记录具体的解密长度
+    预处理阶段就是根据题意模拟解密的过程，看代码即可理解，处理直到currLen&gt;=K的值为止，
+
+  求出第K个字符的阶段：
+      根据预处理阶段，要求出的字符必定在长度为currLen的解密字符范围内
+      设下标j，初始化为i，代表处理到的加密字符串的下标，解密的时候反方向处理，一直处理到第0个加密字符为止
+      对加密字符chars[j]分情况讨论：
+          chars[j]为数字num：
+               理解为当前的所有字符串刚好是由num个框组成的
+              if 若K刚好等于currLen
+                  就返回加密字符串当前从右向左第一个字母
+              else
+                  currLen根据当前数字值num进行缩小：currLen = currLen/num;
+                  同时K也要进行缩小，可以将K缩小到当前所有框的第一个框内的偏移：K = K/currLen;
+
+          chars[j]为字母：
+              这种情况为了避免出现陷阱，仅仅认为K等于currLen的时候才认为匹配了当前字母
+              也就是
+              if(currLen==KK)
+                  return chars[j]+&quot;&quot;;
+              否则else
+                  将当前长度减一，
+
+          此外，当K ==1的时候，就返回加密字符串的第一个字符，因为加密字符以字母开头，
+                 当K==0的时候，就是刚好匹配当前第currLen个的解密字符，返回地currLen个解密后的字符即可（也就是当前考虑的加密字符串中的最后一个字符）
+</code></pre></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">public class n884 &#123;</span><br><span class="line">    public char findChar(char[] chars, int l, int r) &#123;</span><br><span class="line">        for (int i = r; i &gt;= l; i--) &#123;</span><br><span class="line">            if (Character.isLetter(chars[i]))</span><br><span class="line">                return chars[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return chars[l];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String decodeAtIndex(String S, int K) &#123;</span><br><span class="line">        long KK = K;</span><br><span class="line">        char[] chars = S.toCharArray();</span><br><span class="line">        int len = chars.length;</span><br><span class="line">        long currLen = 0;</span><br><span class="line">        int num = 0;</span><br><span class="line">        char result;</span><br><span class="line">        int i;</span><br><span class="line">        for (i = 0; i &lt; len; i++) &#123;</span><br><span class="line">            if (Character.isLetter(chars[i])) &#123;</span><br><span class="line">                currLen++;</span><br><span class="line">                if (KK &lt;= currLen)</span><br><span class="line">                    break;</span><br><span class="line">            &#125; else if (Character.isDigit(chars[i])) &#123;</span><br><span class="line">                num = chars[i] - &apos;0&apos;;</span><br><span class="line">                currLen = currLen * num;</span><br><span class="line">                if (KK &lt;= currLen)</span><br><span class="line">                    break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        if (i &gt;= len) &#123;</span><br><span class="line">            i = len - 1;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">       // System.out.println(new String(chars,0,i+1));</span><br><span class="line">        for (int j = i; j &gt;= 0; j--) &#123;</span><br><span class="line">//            System.out.println(j+&quot;:&quot;+currLen+&quot;:&quot;+KK);</span><br><span class="line">            if(KK==1)&#123;</span><br><span class="line">                return chars[0]+&quot;&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            if (Character.isDigit(chars[j])) &#123;//数字</span><br><span class="line">                num = (chars[j] - &apos;0&apos;);</span><br><span class="line">                if (KK==0||currLen ==KK) &#123;</span><br><span class="line">                    return findChar(chars, 0, j) + &quot;&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    currLen = currLen /num ;</span><br><span class="line">                    KK = KK % currLen;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125; else if (Character.isLetter(chars[j])) &#123;</span><br><span class="line">               if(KK==0||currLen==KK)&#123;</span><br><span class="line">                   return chars[j]+&quot;&quot;;</span><br><span class="line">               &#125;else &#123;</span><br><span class="line">                   currLen--;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">//        String S = &quot;aw4eguc6cs&quot;;</span><br><span class="line">//        int K = 41;</span><br><span class="line">//        String S = &quot;vk6&quot;;</span><br><span class="line">//        int K = 10;</span><br><span class="line">        String S = &quot;ha22&quot;;</span><br><span class="line">        int K = 5;</span><br><span class="line">      //  String S = &quot;lqup4fznamvirw2pf9ant6sv9lj5rve6fdnvm4cbrmpu7pnqa6devbhuzdbqagp8itnsrylgxjkbhloe2gmdy2sc4xu7tljkzl9s&quot;;</span><br><span class="line">//                    lqup4fznamvirw2pf9ant6sv9lj5rve6fdnvm4cbrmpu7pnqa6devbhuzdbqagp8</span><br><span class="line">        //int K = 654582184;</span><br><span class="line">        n884 t = new n884();</span><br><span class="line"></span><br><span class="line">        System.out.println(t.decodeAtIndex(S, K));</span><br><span class="line">        System.out.println();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wanglikang.github.io/2018/08/05/884-索引处的解码字符串/" data-id="cjkgiusxk0000s8o4ryvtm79d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode刷题/">LeetCode刷题</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-001-两数之和" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/08/05/001-两数之和/" class="article-date">
@@ -103,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/05/001-两数之和/" data-id="cjkgd4c6b0001n8o4rqolkue0" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/05/001-两数之和/" data-id="cjkgiuszc0001s8o4196ds9q9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/LeetCode刷题/">LeetCode刷题</a></li></ul>
@@ -157,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/" data-id="cjkgd4c7g0005n8o4t31fjjej" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/" data-id="cjkgiut090005s8o4auzsqjr3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
@@ -281,79 +392,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/java基础/" data-id="cjkgd4c7m0006n8o4l56dch9o" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-hexo-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/01/hello-hexo-1/" class="article-date">
-  <time datetime="2018-08-01T13:58:19.000Z" itemprop="datePublished">2018-08-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/hello-hexo-1/">hello-hexo</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo-1/" data-id="cjkgd4c5g0000n8o4rn2ojfce" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/08/01/hello-hexo/" class="article-date">
-  <time datetime="2018-08-01T13:57:38.000Z" itemprop="datePublished">2018-08-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/01/hello-hexo/">hello hexo!!!</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo/" data-id="cjkgd4c6m0002n8o4o82j4iwv" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/java基础/" data-id="cjkgiuszu0003s8o4nqdzjc2u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -398,7 +437,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-world/" data-id="cjkgd4c770004n8o42nyu2o2d" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/hello-world/" data-id="cjkgiut010004s8o4d13r9g66" class="article-share-link">Share</a>
       
       
     </footer>
@@ -431,7 +470,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/LeetCode刷题/" style="font-size: 10px;">LeetCode刷题</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+      <a href="/tags/LeetCode刷题/" style="font-size: 20px;">LeetCode刷题</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
     </div>
   </div>
 
@@ -453,6 +492,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/05/884-索引处的解码字符串/">884.索引处的解码字符串</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/05/001-两数之和/">001.两数之和</a>
           </li>
         
@@ -465,11 +508,7 @@
           </li>
         
           <li>
-            <a href="/2018/08/01/hello-hexo-1/">hello-hexo</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/01/hello-hexo/">hello hexo!!!</a>
+            <a href="/2018/08/01/hello-world/">Hello World</a>
           </li>
         
       </ul>
