@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>001.两数之和 | 渣渣笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="package cn.wlk.keepcoding.leetcode; import org.junit.Test; import java.util.Arrays; 1. 两数之和 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。  你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。  示例:  给定 nums = [2, 7, 11, 15], target = 9">
+<meta property="og:type" content="article">
+<meta property="og:title" content="001.两数之和">
+<meta property="og:url" content="http://wanglikang.github.io/2018/08/05/001-两数之和/index.html">
+<meta property="og:site_name" content="渣渣笔记">
+<meta property="og:description" content="package cn.wlk.keepcoding.leetcode; import org.junit.Test; import java.util.Arrays; 1. 两数之和 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。  你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。  示例:  给定 nums = [2, 7, 11, 15], target = 9">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-08-05T04:39:42.063Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="001.两数之和">
+<meta name="twitter:description" content="package cn.wlk.keepcoding.leetcode; import org.junit.Test; import java.util.Arrays; 1. 两数之和 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。  你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。  示例:  给定 nums = [2, 7, 11, 15], target = 9">
+  
+    <link rel="alternate" href="/atom.xml" title="渣渣笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">渣渣笔记</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">寄蜉蝣于天地，渺沧海之一粟</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://wanglikang.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-001-两数之和" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/001-两数之和/" class="article-date">
+  <time datetime="2018-08-05T04:35:44.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      001.两数之和
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>package cn.wlk.keepcoding.leetcode;</p>
+<p>import org.junit.Test;</p>
+<p>import java.util.Arrays;</p>
+<h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h2><p> 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。</p>
+<p> 你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。</p>
+<p> 示例:</p>
+<p> 给定 nums = [2, 7, 11, 15], target = 9</p>
+<p> 因为 nums[0] + nums[1] = 2 + 7 = 9<br> 所以返回 [0, 1]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class n001 &#123;</span><br><span class="line">    public int[] twoSum(int[] nums, int target) &#123;</span><br><span class="line">        int len = nums.length;</span><br><span class="line">        int[] result =new int[2];</span><br><span class="line">        for(int i = 0;i&lt;len;i++)&#123;</span><br><span class="line">            for(int j = i+1;j&lt;len;j++)&#123;</span><br><span class="line">                if((nums[i]+nums[j])==target)&#123;</span><br><span class="line">                    result[0] = i;</span><br><span class="line">                    result[1] = j;</span><br><span class="line">                    return result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  result;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">        n001 n = new n001();</span><br><span class="line">        int[] nums=&#123;3,2,4&#125;;</span><br><span class="line">        int result[] = n.twoSum(nums,6);</span><br><span class="line">        System.out.println(result[0]+&quot;:&quot;+result[1]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wanglikang.github.io/2018/08/05/001-两数之和/" data-id="cjkgd2d320000qko49b9xo7r8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/02/数据库学习之用户管理-md/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数据库学习之用户管理.md</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">八月 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/05/001-两数之和/">001.两数之和</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/02/数据库学习之用户管理-md/">数据库学习之用户管理.md</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/java基础/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/hello-hexo-1/">hello-hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/01/hello-hexo/">hello hexo!!!</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 王利康<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

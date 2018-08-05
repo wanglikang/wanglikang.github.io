@@ -41,7 +41,7 @@
       </h1>
       
         <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">不会写博客的菜鸟不是好程序猿</a>
+          <a href="/" id="subtitle">寄蜉蝣于天地，渺沧海之一粟</a>
         </h2>
       
     </div>
@@ -68,6 +68,50 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-001-两数之和" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/05/001-两数之和/" class="article-date">
+  <time datetime="2018-08-05T04:35:44.000Z" itemprop="datePublished">2018-08-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/05/001-两数之和/">001.两数之和</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>package cn.wlk.keepcoding.leetcode;</p>
+<p>import org.junit.Test;</p>
+<p>import java.util.Arrays;</p>
+<h2 id="1-两数之和"><a href="#1-两数之和" class="headerlink" title="1. 两数之和"></a>1. 两数之和</h2><p> 给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。</p>
+<p> 你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。</p>
+<p> 示例:</p>
+<p> 给定 nums = [2, 7, 11, 15], target = 9</p>
+<p> 因为 nums[0] + nums[1] = 2 + 7 = 9<br> 所以返回 [0, 1]</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class n001 &#123;</span><br><span class="line">    public int[] twoSum(int[] nums, int target) &#123;</span><br><span class="line">        int len = nums.length;</span><br><span class="line">        int[] result =new int[2];</span><br><span class="line">        for(int i = 0;i&lt;len;i++)&#123;</span><br><span class="line">            for(int j = i+1;j&lt;len;j++)&#123;</span><br><span class="line">                if((nums[i]+nums[j])==target)&#123;</span><br><span class="line">                    result[0] = i;</span><br><span class="line">                    result[1] = j;</span><br><span class="line">                    return result;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return  result;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    @Test</span><br><span class="line">    public void test() &#123;</span><br><span class="line">        n001 n = new n001();</span><br><span class="line">        int[] nums=&#123;3,2,4&#125;;</span><br><span class="line">        int result[] = n.twoSum(nums,6);</span><br><span class="line">        System.out.println(result[0]+&quot;:&quot;+result[1]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://wanglikang.github.io/2018/08/05/001-两数之和/" data-id="cjkgd2d320000qko49b9xo7r8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-数据库学习之用户管理-md" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -111,7 +155,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/" data-id="cjkcceqbr00026co46tqjd1yj" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/02/数据库学习之用户管理-md/" data-id="cjkgd2d990005qko422wukrlk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
@@ -235,7 +279,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/java基础/" data-id="cjkcceqfd00046co49qiuzndy" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/java基础/" data-id="cjkgd2d8n0003qko4s4t0al24" class="article-share-link">Share</a>
       
       
     </footer>
@@ -271,7 +315,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo-1/" data-id="cjkcceq9v00006co4mvmke7eo" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo-1/" data-id="cjkgd2d630001qko44ulte89c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -307,7 +351,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo/" data-id="cjkcceqbg00016co4qeo7dj6d" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/hello-hexo/" data-id="cjkgd2d6g0002qko46n631mo8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -352,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://wanglikang.github.io/2018/08/01/hello-world/" data-id="cjkcceqca00036co4zwbisj03" class="article-share-link">Share</a>
+      <a data-url="http://wanglikang.github.io/2018/08/01/hello-world/" data-id="cjkgd2d8z0004qko4bkesra6r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,6 +451,10 @@
       <ul>
         
           <li>
+            <a href="/2018/08/05/001-两数之和/">001.两数之和</a>
+          </li>
+        
+          <li>
             <a href="/2018/08/02/数据库学习之用户管理-md/">数据库学习之用户管理.md</a>
           </li>
         
@@ -420,10 +468,6 @@
         
           <li>
             <a href="/2018/08/01/hello-hexo/">hello hexo!!!</a>
-          </li>
-        
-          <li>
-            <a href="/2018/08/01/hello-world/">Hello World</a>
           </li>
         
       </ul>
