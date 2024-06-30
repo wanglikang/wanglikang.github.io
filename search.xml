@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>分布式锁</title>
+      <link href="/2024/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/"/>
+      <url>/2024/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/</url>
+      
+        <content type="html"><![CDATA[<h1 id="基于Redis"><a href="#基于Redis" class="headerlink" title="基于Redis"></a>基于Redis</h1><table><thead><tr><th>方式</th><th>介绍</th><th>原理、机制、步骤</th><th>失效情况</th><th>缺点</th></tr></thead><tbody><tr><td>Set NX PX</td><td>基本操作</td><td>命令：</td><td></td><td></td></tr><tr><td>set key value NX PX 毫秒数</td><td>仅在redis单机模式下有效</td><td></td><td></td><td></td></tr><tr><td>集群模式下，会失效</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td>lua脚本</td><td>进阶操作</td><td></td><td>仅在redis单机模式下有效</td><td></td></tr><tr><td>哨兵/集群模式下，会失效</td><td></td><td></td><td></td><td></td></tr><tr><td>原因是因为会有主从异步，异步传播的问题</td><td></td><td></td><td></td><td></td></tr><tr><td>可能主节点刚写入，还未同步到从节点，主节点就宕机了，此时其他线程也可能加锁成功</td><td>哨兵/集群模式下，会失效</td><td></td><td></td><td></td></tr><tr><td>RedLock</td><td>分布式加锁思想</td><td>1、用相同的key 和随机的value进行加锁</td><td></td><td></td></tr><tr><td>2、设置较短的过期时间</td><td></td><td></td><td></td><td></td></tr><tr><td>3、使用时需要计算各个机器上加锁的耗时</td><td></td><td></td><td></td><td></td></tr><tr><td>4、半数以上成功，且超时时间未到，才算加上成功</td><td></td><td></td><td></td><td></td></tr><tr><td>5、否则，认为加锁失败，逐个进行解锁缩放</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td>Redission</td><td>分布式锁框架中间件</td><td></td><td></td><td></td></tr><tr><td>大量使用lua脚本</td><td>加锁过程</td><td></td><td></td><td></td></tr><tr><td>先用exits判断是否已经加锁成功</td><td></td><td></td><td></td><td></td></tr><tr><td>可重入锁：若成功，则使用使用hincby，加锁次数+1</td><td></td><td></td><td></td><td></td></tr><tr><td>使用pexpire：设置过期时间</td><td></td><td></td><td></td><td></td></tr><tr><td>自动延长锁过期时间（watchdog机制）（本质是定时任务）</td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h1 id="基于Zookeeper"><a href="#基于Zookeeper" class="headerlink" title="基于Zookeeper"></a>基于Zookeeper</h1><p>参考：<br>1、<a href="https://blog.51cto.com/zhangxueliang/6315986">https://blog.51cto.com/zhangxueliang/6315986</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 分布式 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 分布式 </tag>
+            
+            <tag> 开发实践 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>测试加密文章</title>
+      <link href="/2024/06/29/%E6%B5%8B%E8%AF%95%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"/>
+      <url>/2024/06/29/%E6%B5%8B%E8%AF%95%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/</url>
+      
+        <content type="html"><![CDATA[<p>这个文章是用来测试访问需要密码的功能的</p><p>若看到此文字的时候，没有输入密码，则表示功能配置有误</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Markdown </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 软件 </tag>
+            
+            <tag> 大数据 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>分布式事务</title>
+      <link href="/2024/06/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/"/>
+      <url>/2024/06/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/</url>
+      
+        <content type="html"><![CDATA[<h1 id="分布式事务综述-smile"><a href="#分布式事务综述-smile" class="headerlink" title="分布式事务综述 :smile:"></a>分布式事务综述 <span class="github-emoji"><span>😄</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f604.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></h1><p>基础理论：CAP、BASE</p><p>分布式事务算法、思想<br>2PC（强一致性）<br>有数据阻塞、不一致的情况<br>3PC（强一致性）<br>有数据阻塞、不一致的情况</p><p>TCC（最终一致）<br>TCC分布式事务模型相对于XA协议，其特征在于它不依赖资源管理器对分布式事务的支持，而是通过对业务逻辑的分解来实现分布式事务。对于一个具体的业务服务，其需要业务系统提供三段业务逻辑：<br>1.Try：完成所有业务检查，预留必须的业务资源；<br>2.Confirm：用于提交，真正执行业务逻辑，不做任何业务检查且只使用try阶段预留的业务资源。因此只要try操作成功，confirm也能成功；此外confirm还需要满足幂等性，保证分布式事务有且只有一次成功；<br>3.Cancel：用于回滚，释放Try阶段预留的业务资源，同样也需要满足幂等性。<br>举例子来说，拿10元买一瓶水这一操作，Try阶段，查询钱包中是否有10元并锁住这10元，查询是否有水并锁住这一瓶水；如果try阶段失败则执行cancel，释放10元和这一瓶水，保证幂等性；如果都成功则进行confirm，确认扣除10元和一瓶水，confirm失败会重试需要保证幂等性；<br>TCC实现的二阶段提交是在业务层面而不是在资源层面，有效避免了XA二阶段提交占用资源锁过长导致的性能低下问题。但是TCC模型对业务代码有很大的入侵，业务改造成本高。<br>最大努力通知方式（最终一致）<br>BEN（Best Effort Notification），它是一种不保证强一致性的方法，通过异步通知（常见的是消息中间件实现）来达到事务的一致性，即尽力保证事务成功，但不能完全保证，主要应用在金融交易场景中。<br>具体来说，分布式事务最大努力通知通常用于以下场景：<br>1、异步通知：当某个服务需要通知其他服务或组件进行后续操作时，可以采用异步通知的方式，发出通知后即可继续自身的操作，而不需要等待被通知的服务的响应。<br>2、最终一致性：在分布式系统中，因为网络延迟、故障等原因，无法保证所有相关的服务或组件都能够及时收到通知。因此，采用最大努力通知的方式来处理事务，可以更好地适应分布式系统的不确定性，最终保证系统达到一致的状态。<br>在实际应用中，分布式事务最大努力通知可能会导致以下情况：<br>● 通知失败：由于网络故障、接收方服务不可用等原因，通知可能会失败。<br>● 重复通知：为了确保通知的可靠性，可能需要定时重试通知操作，这可能导致接收方收到重复的通知。<br>为了应对这些情况，通常需要在接收方设计幂等性的接收机制，以确保即使接收到重复的通知，也不会对系统状态产生额外影响。<br>总的来说，分布式事务最大努力通知是一种在分布式系统中处理事务的方法，它通过异步、灵活的通知机制来适应分布式系统的复杂性，但同时也需要考虑通知可能失败和重复通知等情况。<br>对于时间不敏感的业务，短信、邮件通知等。尽最大努力进行推送消息保证事务数据的最终一致性。<br>分布式事务解决方案<br>XA协议<br>全称eXtended Architecture，它是一个分布式事务协议，通过二阶段提交来保证强一致性。XA协议通常实现在数据库资源层，直接作用于资源管理器，且大部分数据库支持XA协议。<br>优点：<br>由于其作用于资源管理器上，所以基于XA协议实现的分布式产品对业务几乎没有入侵；<br>缺点：<br>资源被锁定时间长，性能低，不适用高并发场景；</p><p>本地消息表<br>本地消息表是将分布式事务分解成多个本地事务，通过本地消息表跟消息中间件连接起来最终实现分布式事务。再该模型中分为事务主动方和事务被动方，事务主动方需要建立并维护本地消息表，该消息表记录事务进行的状态。</p><p>事务流程如下：<br>1.事务主动方首先进行自己的业务处理并将后续处理写入消息表，这两步在同一个本地事务中保持一致性；<br>2.事务主动方轮询消息表，向消息中间件发送消息；<br>3.消息被动房消费消息，处理本地事务并将结果写会消息中间件；<br>4.事务主动方监听消息中间件更新本地消息表；<br>5.各个步骤可能会出现异常，可以会导致消息重复等问题，所以要保证幂等性。<br>缺点：<br>1.写本地消息表和业务处理耦合在一起，难以做成通用性；<br>2.本地消息表是通过写在数据库中进行实现，需要做额外的磁盘的IO操作，不适用高并发；<br>RocketMQ消息事务<br>RocketMQ中采用的消息事务。RocketMQ消息事务需要在发送消息时进行两段提交，保证发送消息和本地事务的原子性；此外RocketMQ本身提供存储功能，相当于是对本地消息表的一个内部封装，对事务消息提供持久化支持。</p><p>消息事务流程如下：</p><ol><li>实现发送消息的二阶段提交，首先消息生产者预发送消息（half message），若收到成功回复则执行本地事务；若失败则直接取消后续操作；</li><li>若消息生产者本地事务处理成功则向服务端（MQ broker）发送commit请求，此时消息便在broker中生效，消费者可进行消费；若消息失败则回滚；此外，因为网络原因或其他情况broker一直未收到commit或者rollback请求则会主动问询事务状态，并根据问询结果进行commit或者rollback；</li><li>事务被动方消费消息，进行本地事务；若事务被动方本地事务失败则会不断重试，达到一定次数后触发报警由人工介入处理。若事务成功则整个分布式事务处理完成。<br>事务消息不仅适用于上游事务对下游事务无依赖的场景，还可以与一些传统分布式事务架构相结合，而 MQ 的服务端作为天生的具有高可用能力的协调者，使得我们未来可以基于MQ提供一站式轻量级分布式事务解决方案，用以满足各种场景下的分布式事务需求。<br>不采用的原因：需要强依赖中间件的能力，耦合较深，不易迁移，性能较差</li></ol><p>Ali的TXC中间件<br>TXC（Taobao Transaction Constructor）是一款高性能、高可靠、接入简单的分布式事务中间件，用于解决分布式环境下的事务一致性问题。2014年的</p><p>TXC特点：<br>● 最终一致性（牺牲部分一致性和隔离性，可通过配置更改性能与隔离性之间的平衡点）<br>● 代码入侵少（不需要程序员改造业务逻辑，通过注解形式便可实现，开发便捷）<br>● 跨多应用事务（与HSF结合）<br>三种模式：<br>标准模式（AT模式）<br>自定义模式（MT模式）<br>重试模式（RT模式）</p><p>开源版TXC：Seata<br>介绍<br>官网链接：<br><a href="https://seata.apache.org/zh-cn/docs/overview/what-is-seata/">https://seata.apache.org/zh-cn/docs/overview/what-is-seata/</a></p><p>事务模式<br>提供了四种事物模式： AT、TCC、SAGA 和 XA<br>AT<br>TCC<br>Sega<br>Saga 模式是分布式事务中长事务的一种解决方案，Seata 中 Saga 模式的理论基础是 Hector &amp; Kenneth 在 1987 年发表的论文 Sagas。下图（来自官网）是 Seata 中 Saga 模型：</p><p>在 Saga 模式中，如果一部分分支事务已经提交成功，当其中一个分支事务提交失败，状态机就会触发所有提交成功的分支事务进行回滚。<br>分支事务中提交和回滚的逻辑需要由业务代码来实现。<br>XA</p><p>历史</p><p>参考：<br>1、【最大努力通知-实现分布式事务】<br><a href="https://blog.csdn.net/Fireworkit/article/details/135174577">https://blog.csdn.net/Fireworkit/article/details/135174577</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 分布式 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 软件 </tag>
+            
+            <tag> 大数据 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>testNewPost</title>
+      <link href="/2024/06/06/testNewPost/"/>
+      <url>/2024/06/06/testNewPost/</url>
+      
+        <content type="html"><![CDATA[<p>测试新生成一个文章</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Markdown </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 软件 </tag>
+            
+            <tag> 大数据 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>AboutMe</title>
+      <link href="/2024/06/06/AboutMe/"/>
+      <url>/2024/06/06/AboutMe/</url>
+      
+        <content type="html"><![CDATA[<h1 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h1><p>姓名： 王利康</p><ul><li>18年本科毕业于郑州大学，信息工程学院，软件工程专业</li><li>21年硕士毕业于北京航空航天大学，软件学院，软件工程专业</li></ul><h1 id="兴趣爱好"><a href="#兴趣爱好" class="headerlink" title="兴趣爱好"></a>兴趣爱好</h1><ul><li>撸铁健身 🏋️‍♂️️</li><li>撸猫</li><li>听歌</li></ul><h1 id="工作经历"><a href="#工作经历" class="headerlink" title="工作经历"></a>工作经历</h1><p>21年毕业加入菜鸟<br>21.3 - 22.3:    负责风控平台基础能力建设<br>22.3 - 23.3:    负责风控事件中心的重构升级、上线<br>23.4 - 至今:     采购业务中风险合规平台<strong>的0到1</strong> 的搭建</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> AboutMe </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2024/06/06/hello-world/"/>
+      <url>/2024/06/06/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></tbody></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
