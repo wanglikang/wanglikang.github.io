@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类: 分布式, 网址的关键字，支持多个">
-    <meta name="description" content="记录一下的描述,主要用于SEO">
+    <meta name="keywords" content="重构系统上线总结, 网址的关键字，支持多个">
+    <meta name="description" content="重构系统如何切流、上线，才能实现丝滑迁移呢，一点点的思考和实践">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类: 分布式 | 王利康的github主页面</title>
+    <title>重构系统上线总结 | 王利康的github主页面</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -38,9 +38,7 @@
 
 
 
-    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
     <link rel="stylesheet" href="/css/post.css">
-
 
 
 
@@ -332,222 +330,384 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
-    <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                记录、分享
-                
-            </div>
+    
 
-            <div class="description center-align">
-                
-                <span id="subtitle"></span>
-                <script src="/libs/typed/typed.js"></script>
-                <script>
-                    var typed = new Typed("#subtitle", {
-                        strings: [ 
-                            
-                                "从来没有真正的绝境, 只有心灵的迷途",
-                            
-                                "Never really desperate, only the lost of the soul",
-                            
-                        ],
-                        startDelay: 300,
-                        typeSpeed: 100,
-                        loop: true,
-                        backSpeed: 50,
-                        showCursor: true
-                    });
-                </script>
-                
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/source/imgs/img1.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">重构系统上线总结</h1>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-<script>
-    // 每天切换 banner 图.  Switch banner image every day.
-    var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-    $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
-</script>
-<script>
-    
-      var bannerUrl = "/medias/featureimages/" + Math.floor(Math.random() * 24) + '.jpg';
-    
-    $('.bg-cover.about-cover').css('background-image', 'url(' + bannerUrl + ')');
-
-</script>
 
 
-    </div>
-</div>
-
-<main class="content">
+<main class="container content">
 
     
-
-<div id="category-cloud" class="container chip-container">
+    <!-- 文章内容详情 -->
+<div id="artDetail">
     <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-bookmark"></i>&nbsp;&nbsp;文章分类
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%AE%9E%E8%B7%B5%E7%BB%8F%E9%AA%8C/">
+                                <span class="chip bg-color">实践经验</span>
+                            </a>
+                        
+                            <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">
+                                <span class="chip bg-color">软件开发</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="post-category">
+                                软件工程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
             </div>
-            <div class="tag-chips">
+
+            <div class="post-info">
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-07-04
+                </div>
                 
+
                 
-                <a href="/categories/JVM/" title="JVM: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F9EBEA;">JVM
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
+
                 
-                <a href="/categories/Markdown/" title="Markdown: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #F5EEF8;">Markdown
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
+
                 
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>设想这样的场景：对一个运行中的系统，需要重构某一个功能模块，或需要整体进行系统重构，且涉及上下游调用比较多。</p>
+<p>如何在保障业务正常运行的情况下，进行功能模块的上线运行？</p>
+<p>如何保障重构后的数据库中的数据和原系统/功能模型一模一样 或 完美兼容？</p>
+<p>如何保障用户体验前后一致？</p>
+<p>…</p>
+<h1 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h1><h2 id="需求分析（功能梳理）"><a href="#需求分析（功能梳理）" class="headerlink" title="需求分析（功能梳理）"></a>需求分析（功能梳理）</h2><p>对现有的系统进行业务流程层面的理解，尽量梳理每一个流程的细节、当时这样设计的原因，最好能产出业务流程图。</p>
+<p>对现有的代码模块有一个整体的了解，评估一下现有系统的Server个数、Class个数、涉及的数据库表个数、涉及的业务流程个数等等，越细越好，最好能产出一份Server服务的全量统计表格</p>
+<p>此阶段主要是为了粗估工作量</p>
+<h2 id="功能模块拆解（详细分析）"><a href="#功能模块拆解（详细分析）" class="headerlink" title="功能模块拆解（详细分析）"></a>功能模块拆解（详细分析）</h2><p>针对不同的业务流程，使用数据流图（的思想），梳理不同数据的流转逻辑、不同服务的关键入参、关键出参，关键实体对象的字段变化逻辑，关键实体对象的状态机等<br>针对现有的代码，最好能做到通读一遍，对所有的类、服务、逻辑，做到心中有数</p>
+<h2 id="新功能、优化功能链路设计"><a href="#新功能、优化功能链路设计" class="headerlink" title="新功能、优化功能链路设计"></a>新功能、优化功能链路设计</h2><p>针对重构过程中提出的新流程、新方法、新技术，在系统架构图中，标识出来，用于和老系统进行区分<br>针对旧的功能链路，确保功能前后一致</p>
+<h1 id="实施阶段"><a href="#实施阶段" class="headerlink" title="实施阶段"></a>实施阶段</h1><h2 id="功能开发"><a href="#功能开发" class="headerlink" title="功能开发"></a>功能开发</h2><p>根据新系统的概要设计、详细设计，进行编码、自测</p>
+<h2 id="切流逻辑开发"><a href="#切流逻辑开发" class="headerlink" title="切流逻辑开发"></a>切流逻辑开发</h2><h3 id="切流开关"><a href="#切流开关" class="headerlink" title="切流开关"></a>切流开关</h3><p>by 业务场景、by 用户、by 来源系统、by 时间等，进行切流，当符合灰度的时候，才走新链路；否则，仍走旧链路</p>
+<h2 id="切流日志"><a href="#切流日志" class="headerlink" title="切流日志"></a>切流日志</h2><p>通过日志系统，将新链路中的流量入口信息，进行打印，并通过日志监控系统，进行监控，观察日志。</p>
+<p>若出现大量的报错、异常情况，可以及时切回旧链路，及时止血</p>
+<h2 id="补偿逻辑开发"><a href="#补偿逻辑开发" class="headerlink" title="补偿逻辑开发"></a>补偿逻辑开发</h2><p>针对可能出现的异常情况，提供补偿逻辑，如重推、重试、作废、状态订正等，减少异常情况发生后补救的成本</p>
+<h1 id="切流上线阶段"><a href="#切流上线阶段" class="headerlink" title="切流上线阶段"></a>切流上线阶段</h1><h2 id="上下游、用户通知"><a href="#上下游、用户通知" class="headerlink" title="上下游、用户通知"></a>上下游、用户通知</h2><p>在切流前，对必要的参与者、上下游调用方、前台用户，进行通知，告知可能出现的风险、反馈途径、紧急话术、补救措施等</p>
+<h2 id="小部分切流"><a href="#小部分切流" class="headerlink" title="小部分切流"></a>小部分切流</h2><h2 id="大范围切流"><a href="#大范围切流" class="headerlink" title="大范围切流"></a>大范围切流</h2><h2 id="全量切流"><a href="#全量切流" class="headerlink" title="全量切流"></a>全量切流</h2><h1 id="收尾阶段"><a href="#收尾阶段" class="headerlink" title="收尾阶段"></a>收尾阶段</h1><h2 id="停止、下线旧接口、旧服务"><a href="#停止、下线旧接口、旧服务" class="headerlink" title="停止、下线旧接口、旧服务"></a>停止、下线旧接口、旧服务</h2><h2 id="清理切流期间的测试数据、灰度数据"><a href="#清理切流期间的测试数据、灰度数据" class="headerlink" title="清理切流期间的测试数据、灰度数据"></a>清理切流期间的测试数据、灰度数据</h2><h2 id="清理、删除旧代码、旧数据库表"><a href="#清理、删除旧代码、旧数据库表" class="headerlink" title="清理、删除旧代码、旧数据库表"></a>清理、删除旧代码、旧数据库表</h2>
                 
-                <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" title="分布式: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            style="background-color: #D5F5E3;">分布式
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" title="软件工程: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            style="background-color: #E8F8F5;">软件工程
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">王利康</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://wanglikang.github.io/2023/07/04/%E9%87%8D%E6%9E%84%E7%B3%BB%E7%BB%9F%E4%B8%8A%E7%BA%BF%E6%80%BB%E7%BB%93/">http://wanglikang.github.io/2023/07/04/%E9%87%8D%E6%9E%84%E7%B3%BB%E7%BB%9F%E4%B8%8A%E7%BA%BF%E6%80%BB%E7%BB%93/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">王利康</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%AE%9E%E8%B7%B5%E7%BB%8F%E9%AA%8C/">
+                                    <span class="chip bg-color">实践经验</span>
+                                </a>
+                            
+                                <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">
+                                    <span class="chip bg-color">软件开发</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
 
     
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2024/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="/source/images/xxx.jpg" class="responsive-img" alt="分布式锁">
-                            
-                            <span class="card-title">分布式锁</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                常见分布式锁的原理、实现方式
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-30
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" class="post-category">
-                                    分布式
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
+    
 
-                    
-                    <div class="card-action article-tags">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/12/12/JVM%E4%B9%8BJIT/">
+                    <div class="card-image">
                         
-                        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F/">
-                            <span class="chip bg-color">分布式</span>
-                        </a>
+                        <img src="/source/images/xxx.jpg" class="responsive-img" alt="JVM之JIT">
                         
-                        <a href="/tags/%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5/">
-                            <span class="chip bg-color">开发实践</span>
-                        </a>
+                        <span class="card-title">JVM之JIT</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            JVM中JIT的优化内容
                         
                     </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-12-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/JVM/" class="post-category">
+                                    JVM
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/JVM/">
+                        <span class="chip bg-color">JVM</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
+                        <span class="chip bg-color">底层原理</span>
+                    </a>
                     
                 </div>
+                
             </div>
-            
-            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2024/06/29/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1/">
-                        <div class="card-image tag-image">
-                            
-                            <img src="/imgs/img1.png" class="responsive-img" alt="分布式事务">
-                            
-                            <span class="card-title">分布式事务</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-29
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" class="post-category">
-                                    分布式
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/%E8%BD%AF%E4%BB%B6/">
-                            <span class="chip bg-color">软件</span>
-                        </a>
-                        
-                        <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
-                            <span class="chip bg-color">大数据</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
         </div>
-    </article>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/07/04/%E9%87%8D%E6%9E%84%E7%B3%BB%E7%BB%9F%E4%B8%8A%E7%BA%BF%E6%80%BB%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        <img src="/source/imgs/img1.jpg" class="responsive-img" alt="重构系统上线总结">
+                        
+                        <span class="card-title">重构系统上线总结</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            重构系统如何切流、上线，才能实现丝滑迁移呢，一点点的思考和实践
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-07-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" class="post-category">
+                                    软件工程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%AE%9E%E8%B7%B5%E7%BB%8F%E9%AA%8C/">
+                        <span class="chip bg-color">实践经验</span>
+                    </a>
+                    
+                    <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">
+                        <span class="chip bg-color">软件开发</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    
+
 </main>
 
 
