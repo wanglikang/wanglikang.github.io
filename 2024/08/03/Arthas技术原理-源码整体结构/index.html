@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="keywords" content="Arthas技术原理-源码整体结构, 网址的关键字，支持多个">
-    <meta name="description" content="这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要">
+    <meta name="description" content="对源码中各个模块的功能、原理，做稍微深入的研究">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -38,7 +38,9 @@
 
 
 
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
     <link rel="stylesheet" href="/css/post.css">
+
 
 
 
@@ -352,7 +354,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/source/imgs/img1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -367,10 +369,12 @@
 
 
 
-<main class="container content">
+<main class="post-container content">
 
     
-    <!-- 文章内容详情 -->
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
 <div id="artDetail">
     <div class="card">
         <div class="card-content article-info">
@@ -379,12 +383,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BD%AF%E4%BB%B6/">
-                                <span class="chip bg-color">软件</span>
+                            <a href="/tags/%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/">
+                                <span class="chip bg-color">开发调试技术</span>
                             </a>
                         
-                            <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
-                                <span class="chip bg-color">大数据</span>
+                            <a href="/tags/jvm%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
+                                <span class="chip bg-color">jvm底层原理</span>
                             </a>
                         
                     </div>
@@ -395,8 +399,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%88%86%E7%B1%BB%E7%9B%AE%E5%BD%95%E5%BF%85%E5%A1%AB/" class="post-category">
-                                分类目录必填
+                            <a href="/categories/JVM/" class="post-category">
+                                JVM
                             </a>
                         
                     </div>
@@ -429,7 +433,149 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h1>预备知识</h1>
+<pre><code>类似JVM中的AOP
+Java的agent机制
+</code></pre>
+<h2 id="Instructation机制">Instructation机制</h2>
+<pre><code class="language-text">使用 Instrumentation，开发者可以构建一个独立于应用程序的代理程序（Agent），用来监测和协助运行在 JVM 上的程序，甚至能够替换和修改某些类的定义。
+有了这样的功能，开发者就可以实现更为灵活的运行时虚拟机监控和 Java 类操作了，
+这样的特性实际上提供了一种虚拟机级别支持的 AOP 实现方式，
+使得开发者无需对 JDK 做任何升级和改动，就可以实现某些 AOP 的功能了。
+-- 百度百科
+</code></pre>
+<p>instrument的底层实现依赖于JVMTI，也就是JVM Tool Interface，它是JVM暴露出来的一些供用户扩展的接口集合。<br>
+JVMTI是基于事件驱动的，JVM每执行到一定的逻辑就会调用一些事件的回调接口（如果有的话），这些接口可以供开发者去扩展自己的逻辑。<br>
+<img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/573821c2c6334946944bd6b002a8bdff.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="JVMTI机制"></p>
+<p>使用instrument 的方式有两种，下面分别简单总结一下：</p>
+<h2 id="premain方式（JVM启动前进行增强）">premain方式（JVM启动前进行增强）</h2>
+<p>需要实现下面的方法</p>
+<pre><code class="language-java">public static void premain(String args, Instrumentation instrumentation){
+    //在这里调用instrumentation 做增强操作
+}
+</code></pre>
+<p>并在打包jar的时候，指定Premain-Class 的入口类</p>
+<p>可以参考arthas中arthas-agent/pom.xml</p>
+<p><img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/dcd156b5b1dc448a9508c668071a59ff.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="实现premain的例子"></p>
+<p>运行原理如下图：<br>
+<img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/def6dad5102b454f939d36890d62ef30.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="premain反射的运行原理"></p>
+<p>在目标java程序启动运行前，通过-javaagent=agent.jar=paramsxxxx  的方式，可以在目标jvm运行前，进行字节码的修改</p>
+<h3 id="常见的用法">常见的用法</h3>
+<p>idea破解:使用agent的方式，替换加密的文件、证书</p>
+<h2 id="agentmain方式（JVM运行中进行增强）">agentmain方式（JVM运行中进行增强）</h2>
+<p>原理：使用attach机制，与目标jvm建立链接</p>
+<p>使用步骤：</p>
+<ul>
+<li>1、编写agent实现类</li>
+</ul>
+<p>需要实现下面的方法</p>
+<pre><code class="language-java">public static void agentmain(String args, Instrumentation instrumentation){
+
+}
+</code></pre>
+<ul>
+<li>2、打包为agent.jar</li>
+</ul>
+<p>并在打包jar的时候，指定Agent-Class 的入口类</p>
+<p>可以参考arthas中arthas-agent/pom.xml</p>
+<ul>
+<li>3、编写注入程序，调用attach相关的api<br>
+使用时，需要先通过jvm的工具，获取jvm实例，然后调用</li>
+</ul>
+<pre><code class="language-text">com.sun.tools.attach.VirtualMachine.loadAgent(java.lang.String, java.lang.String)
+</code></pre>
+<p>去给目标jvm注入agent.jar</p>
+<ul>
+<li>4、注入后，目标jvm就会运行上面定义的agentmain 方法，进而通过 Instrumentation 实例对jvm实例进行增强</li>
+</ul>
+<p>运行原理如下所示：<br>
+<img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/6cb9b98fb4bf4090948c76c2e2c7312e.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="agentmain方式运行原理"></p>
+<h3 id="常见的应用案例：">常见的应用案例：</h3>
+<p>arthas</p>
+<h1>arthas核心模块的功能和流程</h1>
+<p>arthas的核心模块不多，主要是以下几个：</p>
+<h2 id="arthas-common">arthas-common</h2>
+<p>类如下所示：<br>
+<img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/d3ed995b74d04d68a9a55fe0b7d295d8.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="arthas-common的类"></p>
+<p>主要是存放公共类、工具类<br>
+如io相关的、文件相关的、反射相关的工具</p>
+<h2 id="arthas-apy">arthas-apy</h2>
+<p><img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/b1e716806aa34c5d8d15e37b077635b9.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="arthas-spy模块的运行示意图"></p>
+<p>只有一个类<br>
+<img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/53cb9cc70d4c4f0a97da9d07bb49b8f4.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="arthas-spy类截图"></p>
+<p>定义此类，用于依附到目标jvm中，并实现目标jvm与arthas的类隔离，后续会深入研究</p>
+<h2 id="arthas-client">arthas-client</h2>
+<p>核心类是 com.taobao.arthas.client.TelnetConsole</p>
+<p>对应入口函数是process(java.lang.String[], java.awt.event.ActionListener)</p>
+<p>供arthas-boot使用，在boot的进程中起一个客户端线程，用于接收用户的输入、输出arthasc-core的输出内容</p>
+<p>1、在com.taobao.arthas.client.IOUtil#readWrite 中会起两个线程，</p>
+<ul>
+<li>一个reader线程：用于读取用户在本地「终端」的输入，将其输出到远程的输出流中</li>
+<li>一个writer线程：用于读取远程的输入流，将其输出到本地「终端」的输出流中</li>
+</ul>
+<p>上面的 本地「终端」，指的是标准输入输出</p>
+<p>上面的 远程，指的是通过attach机制注入到目标jvm后，启动的监听端口所产生的连接</p>
+<p>此外，连接远程的时候，会使用 org.apache.commons.net.telnet.TelnetInputStream 这个Runnable 去启动一个线程</p>
+<h2 id="arthas-boot">arthas-boot</h2>
+<p>使用 java -jar arthas-boot.jar 的方式启动arthas的时候，启动的就是本模块下的com.taobao.arthas.boot.Bootstrap的main 方法</p>
+<p>启动后，会在做一下几件事情</p>
+<ul>
+<li>
+<p>1、java版本的判断，做一些准备</p>
+<ul>
+<li>检查jdk版本的兼容性</li>
+<li>检查telnet端口是否已被占用</li>
+</ul>
+</li>
+<li>
+<p>2、列出本机上存在的jvm进程和对应的pid，让用户选择要监听的jvm进程</p>
+</li>
+<li>
+<p>3、选中要监听的jvm的pid后，会检查依赖的一下几个jar是否存在</p>
+<p><em><strong>“arthas-core.jar”, “arthas-agent.jar”, “arthas-spy.jar”</strong></em></p>
+</li>
+</ul>
+<p>若相关依赖不存在，则会去官网上下载</p>
+<ul>
+<li>
+<p>4、若依赖存在，且telnet端口没有被占用，则会在此去检查telnet端口是否被占用</p>
+<ul>
+<li>若存在，则忽略</li>
+<li>若不存在，则通过 <em><strong>com.taobao.arthas.boot.ProcessUtils#startArthasCore</strong></em> 方法，对目标jvm启动arthas-core
+<ul>
+<li>
+<p>使用ProcessBuilder ，构造一个进程，然后使用命令行的方式，调用 com.taobao.arthas.core.Arthas#main</p>
+</li>
+<li>
+<p>继续调用 com.taobao.arthas.core.Arthas#attachAgent</p>
+</li>
+<li>
+<p>最终调用<em><strong>com.sun.tools.attach.VirtualMachine.loadAgent(java.lang.String, java.lang.String)</strong></em></p>
+<p>将agent注入到目标jvm中</p>
+<p><img src="https://wanglikang-github-io.oss-cn-hangzhou.aliyuncs.com/images/20240804/392356d425a645c08448319c2b010efc.png?x-oss-process=image/auto-orient,1/interlace,1/quality,q_50/format,jpg" alt="加载agent到目标jvm"></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>5、通过反射的方式，调用com.taobao.arthas.client.TelnetConsole#main，启动本地「终端」</p>
+</li>
+</ul>
+<h2 id="arthas-core">arthas-core</h2>
+<p>arthas的核心模块，被attach到目标jvm后，会执行一系列的动作</p>
+<p>入口在 com.taobao.arthas.agent334.AgentBootstrap#agentmain</p>
+<p>该模块比较复杂，会是后续研究的重点</p>
+<p>ps：<br>
+也可以在IDEA中全局搜索pom.xml中的关键字「Agent-Class」，来确定attach的入口</p>
+<h1>参考</h1>
+<ul>
+<li>1、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhenjingcool/p/16577979.html">https://www.cnblogs.com/zhenjingcool/p/16577979.html</a></li>
+<li>2、【Java Agent探针技术探秘】<a target="_blank" rel="noopener" href="https://ata.atatech.org/articles/11000162316?spm=ata.23639746.0.0.47507c90Fcc4f4">https://ata.atatech.org/articles/11000162316?spm=ata.23639746.0.0.47507c90Fcc4f4</a></li>
+<li>3、【Arthas原理简析及应用】<a target="_blank" rel="noopener" href="https://ata.atatech.org/articles/11000249240?spm=ata.23639746.0.0.47507c90Ce5mJD#LMKWsXKY">https://ata.atatech.org/articles/11000249240?spm=ata.23639746.0.0.47507c90Ce5mJD#LMKWsXKY</a></li>
+<li>4、【Java Attach API】<a target="_blank" rel="noopener" href="https://www.cnblogs.com/756623607-zhang/p/12575509.html">https://www.cnblogs.com/756623607-zhang/p/12575509.html</a></li>
+</ul>
+
                 
             </div>
             <hr/>
@@ -493,12 +639,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BD%AF%E4%BB%B6/">
-                                    <span class="chip bg-color">软件</span>
+                                <a href="/tags/%E5%BC%80%E5%8F%91%E8%B0%83%E8%AF%95%E6%8A%80%E6%9C%AF/">
+                                    <span class="chip bg-color">开发调试技术</span>
                                 </a>
                             
-                                <a href="/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/">
-                                    <span class="chip bg-color">大数据</span>
+                                <a href="/tags/jvm%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">
+                                    <span class="chip bg-color">jvm底层原理</span>
                                 </a>
                             
                         </div>
@@ -636,7 +782,8 @@
                 <a href="/2024/08/03/Arthas%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86-%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">
                     <div class="card-image">
                         
-                        <img src="/source/imgs/img1.jpg" class="responsive-img" alt="Arthas技术原理-源码调试环境搭建">
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Arthas技术原理-源码调试环境搭建">
                         
                         <span class="card-title">Arthas技术原理-源码调试环境搭建</span>
                     </div>
@@ -706,6 +853,87 @@
 <script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
 
 
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
 
     
 
