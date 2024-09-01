@@ -1,0 +1,1302 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="线程池, 网址的关键字，支持多个">
+    <meta name="description" content="
+关键字：
+Executor顶层接口 -&amp;gt; ExecutorService -&amp;gt; AbstractExecutorService 抽象类
+RunnableFuture顶层任务类 -&amp;gt; 任务包装类：FutureTask
+代表">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>线程池 | 记录、分享</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+
+    <!-- Start: PlantUML -->
+    <style type="text/css" rel="stylesheet">
+      .plantuml-container {
+        width: 100%;
+        overflow: auto;
+        text-align: center;
+      }
+
+      .plantuml-container > svg {
+        max-width: 100%; height: unset !important;
+      }
+
+      .plantuml-container > img {
+        max-width: 100%; height: unset !important;
+      }
+    </style>
+    <!-- End: PlantUML -->
+    </head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">记录、分享</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">记录、分享</div>
+        <div class="logo-desc">
+            
+            记录一下的描述,主要用于SEO
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/wanglikang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/wanglikang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">线程池</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                <span class="chip bg-color">并发编程</span>
+                            </a>
+                        
+                            <a href="/tags/JVM%E5%B9%B6%E5%8F%91/">
+                                <span class="chip bg-color">JVM并发</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="post-category">
+                                并发编程
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-09-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1720252492671-f4d85326-032b-4029-863b-1aea8da41d0e.png?x-oss-process=image%2Fformat%2Cwebp%2Fresize%2Cw_950%2Climit_0" alt=""></p>
+<h1>关键字：</h1>
+<p>Executor顶层接口 -&gt; ExecutorService -&gt; <font style="color:#080808;background-color:#ffffff;">AbstractExecutorService 抽象类</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">RunnableFuture顶层任务类 -&gt; 任务包装类：FutureTask</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">代表了一个一次性的计算过程，内部 有一个volatile的字段state，来表示任务的状态</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">ThreadPoolExecutor：最常用的线程池，有七个参数：最小核心数、最大核心数、保活时间、保活时间单位，线程工厂，任务队列、丢弃策略</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">Worker：ThreadPoolExecutor 中的线程包装类，继承了 Runnable 接口 ，用来封装线程池中的工作线程</font></p>
+<p><font style="color:#080808;background-color:#ffffff;"></font></p>
+<h2 id="font-style-color-080808-background-color-ffffff-线程状态-font"><font style="color:#080808;background-color:#ffffff;">线程状态</font></h2>
+<p>线程的状态转换图</p>
+<h2 id="线程池状态">线程池状态</h2>
+<p>线程池的状态转换图</p>
+<h2 id="线程池原理">线程池原理</h2>
+<h3 id="线程添加、运行原理">线程添加、运行原理</h3>
+<h2 id="ForkJoin-线程池">ForkJoin 线程池</h2>
+<h1><font style="color:#080808;background-color:#ffffff;">组件的内容简单讲解</font></h1>
+<h2 id="ExecutorService：顶层抽象类">ExecutorService：顶层抽象类</h2>
+<p>只有一个 execute 的方法，在具体的实现类中实现</p>
+<h2 id="ExecutorService：接口类">ExecutorService：接口类</h2>
+<p>定义了线程提交（submit）、批量提交（invokeAll）、关闭（shutdown）的方法定义</p>
+<h2 id="font-style-color-080808-background-color-ffffff-AbstractExecutorService：线程池的抽象类-font"><font style="color:#080808;background-color:#ffffff;">AbstractExecutorService：线程池的抽象类</font></h2>
+<p>模板方法，定义了线程池ExecutorService的基本操作流程，将具体的 execute 方法的实现，放到具体的子类中实现</p>
+<p>使用newTaskFor方法，对Runnable、Callable进行了包装，包装为一个<font style="color:#080808;background-color:#ffffff;">RunnableFuture</font></p>
+<p>�的实现类：FutureTask对象</p>
+<h2 id="font-style-color-080808-background-color-ffffff-FutureTask-font"><font style="color:#080808;background-color:#ffffff;">FutureTask</font></h2>
+<p>内部有一个<font style="color:#080808;background-color:#ffffff;">Callable的对象，由RunnableAdapter包装，用于封装返回值</font></p>
+<p><font style="color:#080808;background-color:#ffffff;"></font></p>
+<p><font style="color:#080808;background-color:#ffffff;">代表了一个一次性的计算过程，来表示任务的状态</font></p>
+<ul>
+<li><font style="color:#080808;background-color:#ffffff;">volatile  </font><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">int </font><font style="color:#080808;background-color:#ffffff;">state：状态字段,表示当前任务的状态</font></li>
+<li><font style="color:#080808;background-color:#ffffff;">volatile </font><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">WaitNode </font><font style="color:rgb(51, 51, 51);">waiters：</font><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">用来存储那些正在等待任务结果的线程的，链表结构</font></li>
+<li><font style="color:#080808;background-color:#ffffff;">volatile outcome:</font><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">来存储任务执行的结果或抛出的异常。当任务完成时，结果会存储在这个字段中，供后续调用get()方法时返回。</font></li>
+<li><font style="background-color:rgb(247, 249, 253);">Callable<v> callable：这是任务的实际计算逻辑，FutureTask在构造时接收一个Callable对象，并在后台线程中执行它的call()方法。</v></font></li>
+<li><font style="background-color:rgb(247, 249, 253);">volatile Thread runner：这个字段用来记录哪个线程正在执行任务。这是为了确保任务只被执行一次，并且在取消任务时可能需要中断这个线程。</font></li>
+<li><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">stateOffset、runnerOffset、waitersOffset：几个使用Unsafe机制可以直接进行原子操作的偏移量，直接使用硬件级别的原子操作来控制并发，</font><font style="color:#DF2A3F;background-color:rgb(247, 249, 253);">这样可以在某些场景下提供更好的性能</font><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">。但是，这种方式写出的代码可读性较差，且容易出错，因此在日常开发中并不推荐使用。</font></li>
+</ul>
+<h2 id="font-style-color-080808-background-color-ffffff-font"><font style="color:#080808;background-color:#ffffff;"></font></h2>
+<h2 id="font-style-color-080808-background-color-ffffff-AbstractExecutorService-的实现类：四个-font"><font style="color:#080808;background-color:#ffffff;">AbstractExecutorService 的实现类：四个</font></h2>
+<h4 id="Executors：工具类-，对下面几个实现的封装">Executors：工具类 ，对下面几个实现的封装</h4>
+<h4 id="ForkJoinPool：合并拆分的线程池">ForkJoinPool：合并拆分的线程池</h4>
+<h4 id="font-style-color-080808-background-color-ffffff-ScheduledThreadPoolExecutor：定时调度的线程池-font"><font style="color:#080808;background-color:#ffffff;">ScheduledThreadPoolExecutor：定时调度的线程池</font></h4>
+<h4 id="font-style-color-080808-background-color-ffffff-ThreadPoolExecutor：最常用的线程池-font"><font style="color:#080808;background-color:#ffffff;">ThreadPoolExecutor：最常用的线程池</font></h4>
+<p>添加了动态修改最大核心数、最小核心数、保活时间、线程工厂、拒绝策略等参数的能力</p>
+<p>实现了 shutdown()、shutdowmNow()、execute/submit 等抽象类中的方法</p>
+<p>提供了扩展方法：<font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">beforeExecute、afterExecute、terminated 等方法，可以在任务运行前后，做一些扩展</font></p>
+<p><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">核心方法：</font><font style="color:#080808;background-color:#ffffff;">runWorker(Worker)</font></p>
+<p><font style="color:#080808;background-color:#ffffff;"></font></p>
+<p><font style="color:#080808;background-color:#ffffff;">�</font></p>
+<h2 id="Worker-font-style-color-080808-background-color-ffffff-ThreadPoolExecutor-的内部类，-font-实现了-Runnable">Worker:<font style="color:#080808;background-color:#ffffff;">ThreadPoolExecutor 的内部类，</font>实现了 Runnable</h2>
+<p>继承了 AQS,用于对线程的状态进行加锁，用来判断可以中断</p>
+<p>构造函数为 firstTask，在构造函数里，会调用线程工厂，去 new 一个线程 Thread，runnable 对象为自己</p>
+<h1>重点：<font style="color:rgb(44, 62, 80);">ThreadPoolExecutor</font></h1>
+<p>构造参数：7个</p>
+<p>核心线程数、最大线程数</p>
+<p>睡眠时间、睡眠时间单位</p>
+<p>线程工厂、任务队列、拒绝策略</p>
+<p>线程池的构造方法：</p>
+<p>1、直接创建<font style="color:rgb(44, 62, 80);">ThreadPoolExecutor</font></p>
+<p><font style="color:rgb(44, 62, 80);">2、通过Excutor的工具类</font><strong><font style="color:rgb(44, 62, 80);">Executors</font></strong><font style="color:rgb(44, 62, 80);">来创建（阿里巴巴开发规范不允许使用这种方式）</font></p>
+<p><font style="color:rgb(44, 62, 80);"></font></p>
+<h2 id="font-style-color-rgb-44-62-80-原理-font"><font style="color:rgb(44, 62, 80);">原理</font></h2>
+<p>组成部分：</p>
+<p><font style="color:#080808;background-color:#ffffff;">ctl：一个 AtomicInteger 变量，高位代表线程池的状态，低位代表当前活跃的线程数</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">�mainLock：用来控制线程状态的锁</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">HashSet<worker> workers ：</worker></font></p>
+<p><font style="color:#080808;background-color:#ffffff;">Worker：封装了的执行线程</font></p>
+<p><font style="color:#080808;background-color:#ffffff;"></font></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1709653974278-3cb688aa-17d5-4031-a6bb-3fb60a909672.png" alt=""></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1720252492671-f4d85326-032b-4029-863b-1aea8da41d0e.png" alt=""></p>
+<p>submit操作：</p>
+<p><font style="color:#080808;background-color:#ffffff;">newTaskFor</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">使用FutureTask包装任务</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">execute：交由具体的子类实现</font></p>
+<h2 id="锁">锁</h2>
+<h3 id="每个-Worker-自己的锁">每个 Worker 自己的锁</h3>
+<h3 id="线程池的全局锁">线程池的全局锁</h3>
+<p><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">mainLock，是个ReentrantLock（可重入锁），是个</font></p>
+<h2 id="中断">中断</h2>
+<h3 id="可能发生中断的情况">可能发生中断的情况</h3>
+<p>1 、调用了 shutdownNow()</p>
+<p>设置线程池的状态为 stop，停止添加新的任务，对现有的所有线程，设置其中断位，由各个线程自己去检查处理</p>
+<p>2、任务取消</p>
+<p>对于提交的 Future 类型的任务，可以通过其 cancel 方法取消</p>
+<p>3、线程被中断，在应用中手动调用 interrupt(),导致线程被中断</p>
+<p>线程被中断后，应该及时检查终端标志位，及时清理资源，并退出</p>
+<p>还应该注册关闭钩子：<font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">Runtime.getRuntime().addShutdownHook(Thread hook)，在JVM退出时优雅地关闭线程池</font></p>
+<p><font style="color:rgb(51, 51, 51);background-color:rgb(247, 249, 253);">在里面调用 shuwdownNow()、shutdown()，及时关闭线程，并根据需要，等待线程执行完毕</font></p>
+<h2 id="重点流程">重点流程</h2>
+<h3 id="execute：添加线程的主要方法">execute：添加线程的主要方法</h3>
+<p>判断当前线程池的大小，若小于 coreSize，则尝试通过 addWorker 添加线程</p>
+<p>否则，若向阻塞队列中添加任务失败</p>
+<p>则也通过 addWorker 创建线程</p>
+<p>若创建向队列添加成功</p>
+<p>则再次检线程数，若线程数为 0，则 调用 addWorker，则补充 worker（firstTask 为 null)</p>
+<p>添加 worker 失败，则调用拒绝策略进行处理</p>
+<h3 id="addWorker（提交任务时候用）">addWorker（提交任务时候用）</h3>
+<pre><code class="language-json"> private boolean addWorker(Runnable firstTask, boolean core) {
+        retry:
+        for (;;) {
+            int c = ctl.get();
+            int rs = runStateOf(c);
+
+            // Check if queue empty only if necessary.
+            if (rs &gt;= SHUTDOWN &amp;&amp;
+                ! (rs == SHUTDOWN &amp;&amp;
+                   firstTask == null &amp;&amp;
+                   ! workQueue.isEmpty()))
+                return false;
+
+            for (;;) {
+                int wc = workerCountOf(c);
+                if (wc &gt;= CAPACITY ||
+                    wc &gt;= (core ? corePoolSize : maximumPoolSize))
+                    return false;
+                if (compareAndIncrementWorkerCount(c))
+                    break retry;
+                c = ctl.get();  // Re-read ctl
+                if (runStateOf(c) != rs)
+                    continue retry;
+                // else CAS failed due to workerCount change; retry inner loop
+            }
+        }
+
+        boolean workerStarted = false;
+        boolean workerAdded = false;
+        Worker w = null;
+        try {
+            w = new Worker(firstTask);
+            final Thread t = w.thread;
+            if (t != null) {
+                final ReentrantLock mainLock = this.mainLock;
+                mainLock.lock();
+                try {
+                    // Recheck while holding lock.
+                    // Back out on ThreadFactory failure or if
+                    // shut down before lock acquired.
+                    int rs = runStateOf(ctl.get());
+
+                    if (rs &lt; SHUTDOWN ||
+                        (rs == SHUTDOWN &amp;&amp; firstTask == null)) {
+                        if (t.isAlive()) // precheck that t is startable
+                            throw new IllegalThreadStateException();
+                        workers.add(w);
+                        int s = workers.size();
+                        if (s &gt; largestPoolSize)
+                            largestPoolSize = s;
+                        workerAdded = true;
+                    }
+                } finally {
+                    mainLock.unlock();
+                }
+                if (workerAdded) {
+                    t.start();
+                    workerStarted = true;
+                }
+            }
+        } finally {
+            if (! workerStarted)
+                addWorkerFailed(w);
+        }
+        return workerStarted;
+    }
+
+</code></pre>
+<p>流程概述：</p>
+<p>1、判断线程数是否大于 coreSize、MxSize</p>
+<p>2、生成 Worker，插入 workers，启动线程</p>
+<h4 id="ThreadPoolExecutor中添加worker的流程">ThreadPoolExecutor中添加worker的流程</h4>
+
+      <div class="plantuml-container">
+        <!--?xml version="1.0" encoding="UTF-8" standalone="no"?--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentscripttype="application/ecmascript" contentstyletype="text/css" height="1466px" preserveAspectRatio="none" style="width:471px;height:1466px;" version="1.1" viewBox="0 0 471 1466" width="471px" zoomAndPan="magnify"><defs><filter height="300%" id="f7eb67h" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"></feGaussianBlur><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"></feColorMatrix><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"></feOffset><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"></feBlend></filter></defs><g><ellipse cx="262.375" cy="20" fill="#000000" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="81" x="221.875" y="50"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="61" x="231.875" y="71.6016">获取ctl状态</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="166.375,104.1328,358.375,104.1328,370.375,116.1328,358.375,128.1328,166.375,128.1328,154.375,116.1328,166.375,104.1328" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="192" x="166.375" y="120.29">线程池是否正在停止且不满足添加条件?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="136.375" y="113.8125">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="370.375" y="113.8125">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="71" x="108.875" y="138.1328"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="51" x="118.875" y="159.7344">返回false</text><ellipse cx="144.375" cy="204.6992" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="144.875" cy="205.1992" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="140" x="192.375" y="234.6992"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="120" x="202.375" y="256.3008">检查工作线程数量限制</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="166.375,288.832,358.375,288.832,370.375,300.832,358.375,312.832,166.375,312.832,154.375,300.832,166.375,288.832" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="192" x="166.375" y="304.9893">工作线程计数超过CAPACITY或池大小?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="136.375" y="298.5117">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="370.375" y="298.5117">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="71" x="108.875" y="322.832"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="51" x="118.875" y="344.4336">返回false</text><ellipse cx="144.375" cy="389.3984" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="144.875" cy="389.8984" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="164" x="180.375" y="419.3984"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="144" x="190.375" y="441">尝试原子增加工作线程计数</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="237.875,473.5313,286.875,473.5313,298.875,485.5313,286.875,497.5313,237.875,497.5313,225.875,485.5313,237.875,473.5313" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="49" x="237.875" y="489.6885">是否成功?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="207.875" y="483.2109">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="298.875" y="483.2109">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="81" x="304.375" y="507.5313"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="61" x="314.375" y="529.1328">重新读取ctl</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="292.875,561.6641,396.875,561.6641,408.875,573.6641,396.875,585.6641,292.875,585.6641,280.875,573.6641,292.875,561.6641" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="104" x="292.875" y="577.8213">线程池状态是否改变?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="262.875" y="571.3438">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="408.875" y="571.3438">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="224.875" y="595.6641"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="72" x="234.875" y="617.2656">继续外层循环</text><ellipse cx="270.875" cy="659.7969" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="271.375" cy="660.2969" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="372.875" y="595.6641"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="72" x="382.875" y="617.2656">继续内层循环</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="262.375,679.7969,274.375,691.7969,262.375,703.7969,250.375,691.7969,262.375,679.7969" style="stroke: #A80036; stroke-width: 1.5;"></polygon><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="133" x="195.875" y="723.7969"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="113" x="205.875" y="745.3984">创建新的Worker对象</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="216.375" y="777.9297"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="72" x="226.375" y="799.5313">尝试获取主锁</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="212.875,832.0625,311.875,832.0625,323.875,844.0625,311.875,856.0625,212.875,856.0625,200.875,844.0625,212.875,832.0625" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="99" x="212.875" y="848.2197">再次检查线程池状态</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="44" x="156.875" y="841.7422">满足条件</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="55" x="323.875" y="841.7422">不满足条件</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="128" x="115.75" y="866.0625"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="108" x="125.75" y="887.6641">检查线程是否已启动</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="149.75,920.1953,209.75,920.1953,221.75,932.1953,209.75,944.1953,149.75,944.1953,137.75,932.1953,149.75,920.1953" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="60" x="149.75" y="936.3525">线程已启动?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="119.75" y="929.875">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="221.75" y="929.875">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="203" x="10" y="954.1953"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="183" x="20" y="975.7969">抛出IllegalThreadStateException</text><ellipse cx="111.5" cy="1020.7617" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="112" cy="1021.2617" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="179" x="90.25" y="1050.7617"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="159" x="100.25" y="1072.3633">将Worker添加到workers集合</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="128" x="115.75" y="1104.8945"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="108" x="125.75" y="1126.4961">更新最大线程池大小</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="120" x="119.75" y="1159.0273"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="100" x="129.75" y="1180.6289">标记worker已添加</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="104" x="293" y="866.0625"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="84" x="303" y="887.6641">释放主锁并退出</text><ellipse cx="345" cy="930.1953" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="345.5" cy="930.6953" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="68" x="228.375" y="1213.1602"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="48" x="238.375" y="1234.7617">释放主锁</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="216.375" y="1267.293"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="72" x="226.375" y="1288.8945">启动工作线程</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="204.875,1321.4258,319.875,1321.4258,331.875,1333.4258,319.875,1345.4258,204.875,1345.4258,192.875,1333.4258,204.875,1321.4258" style="stroke: #A80036; stroke-width: 1.5;"></polygon><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="115" x="204.875" y="1337.583">工作线程是否成功启动?</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="18" x="174.875" y="1331.1055">yes</text><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="14" x="331.875" y="1331.1055">no</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="67" x="149.375" y="1355.4258"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="47" x="159.375" y="1377.0273">返回true</text><rect fill="#FEFECE" filter="url(#f7eb67h)" height="34.1328" rx="12.5" ry="12.5" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="295.875" y="1355.4258"></rect><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="72" x="305.875" y="1377.0273">处理启动失败</text><polygon fill="#FEFECE" filter="url(#f7eb67h)" points="262.375,1395.5586,274.375,1407.5586,262.375,1419.5586,250.375,1407.5586,262.375,1395.5586" style="stroke: #A80036; stroke-width: 1.5;"></polygon><ellipse cx="262.375" cy="1449.5586" fill="none" filter="url(#f7eb67h)" rx="10" ry="10" style="stroke: #000000; stroke-width: 1.0;"></ellipse><ellipse cx="262.875" cy="1450.0586" fill="#000000" filter="url(#f7eb67h)" rx="6" ry="6" style="stroke: none; stroke-width: 1.0;"></ellipse><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="30" y2="50"></line><polygon fill="#A80036" points="258.375,40,262.375,50,266.375,40,262.375,44" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="144.375" x2="144.375" y1="172.2656" y2="194.6992"></line><polygon fill="#A80036" points="140.375,184.6992,144.375,194.6992,148.375,184.6992,144.375,188.6992" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="154.375" x2="144.375" y1="116.1328" y2="116.1328"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="144.375" x2="144.375" y1="116.1328" y2="138.1328"></line><polygon fill="#A80036" points="140.375,128.1328,144.375,138.1328,148.375,128.1328,144.375,132.1328" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="370.375" x2="380.375" y1="116.1328" y2="116.1328"></line><polygon fill="#A80036" points="376.375,164.6992,380.375,174.6992,384.375,164.6992,380.375,168.6992" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="380.375" x2="380.375" y1="116.1328" y2="219.6992"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="380.375" x2="262.375" y1="219.6992" y2="219.6992"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="219.6992" y2="234.6992"></line><polygon fill="#A80036" points="258.375,224.6992,262.375,234.6992,266.375,224.6992,262.375,228.6992" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="84.1328" y2="104.1328"></line><polygon fill="#A80036" points="258.375,94.1328,262.375,104.1328,266.375,94.1328,262.375,98.1328" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="144.375" x2="144.375" y1="356.9648" y2="379.3984"></line><polygon fill="#A80036" points="140.375,369.3984,144.375,379.3984,148.375,369.3984,144.375,373.3984" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="154.375" x2="144.375" y1="300.832" y2="300.832"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="144.375" x2="144.375" y1="300.832" y2="322.832"></line><polygon fill="#A80036" points="140.375,312.832,144.375,322.832,148.375,312.832,144.375,316.832" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="370.375" x2="380.375" y1="300.832" y2="300.832"></line><polygon fill="#A80036" points="376.375,349.3984,380.375,359.3984,384.375,349.3984,380.375,353.3984" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="380.375" x2="380.375" y1="300.832" y2="404.3984"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="380.375" x2="262.375" y1="404.3984" y2="404.3984"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="404.3984" y2="419.3984"></line><polygon fill="#A80036" points="258.375,409.3984,262.375,419.3984,266.375,409.3984,262.375,413.3984" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="268.832" y2="288.832"></line><polygon fill="#A80036" points="258.375,278.832,262.375,288.832,266.375,278.832,262.375,282.832" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="270.875" x2="270.875" y1="629.7969" y2="649.7969"></line><polygon fill="#A80036" points="266.875,639.7969,270.875,649.7969,274.875,639.7969,270.875,643.7969" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="280.875" x2="270.875" y1="573.6641" y2="573.6641"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="270.875" x2="270.875" y1="573.6641" y2="595.6641"></line><polygon fill="#A80036" points="266.875,585.6641,270.875,595.6641,274.875,585.6641,270.875,589.6641" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="408.875" x2="418.875" y1="573.6641" y2="573.6641"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="418.875" x2="418.875" y1="573.6641" y2="595.6641"></line><polygon fill="#A80036" points="414.875,585.6641,418.875,595.6641,422.875,585.6641,418.875,589.6641" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="418.875" x2="418.875" y1="629.7969" y2="691.7969"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="418.875" x2="274.375" y1="691.7969" y2="691.7969"></line><polygon fill="#A80036" points="284.375,687.7969,274.375,691.7969,284.375,695.7969,280.375,691.7969" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="344.875" x2="344.875" y1="541.6641" y2="561.6641"></line><polygon fill="#A80036" points="340.875,551.6641,344.875,561.6641,348.875,551.6641,344.875,555.6641" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="225.875" x2="179.875" y1="485.5313" y2="485.5313"></line><polygon fill="#A80036" points="175.875,579.6641,179.875,589.6641,183.875,579.6641,179.875,583.6641" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.875" x2="179.875" y1="485.5313" y2="691.7969"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.875" x2="250.375" y1="691.7969" y2="691.7969"></line><polygon fill="#A80036" points="240.375,687.7969,250.375,691.7969,240.375,695.7969,244.375,691.7969" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="298.875" x2="344.875" y1="485.5313" y2="485.5313"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="344.875" x2="344.875" y1="485.5313" y2="507.5313"></line><polygon fill="#A80036" points="340.875,497.5313,344.875,507.5313,348.875,497.5313,344.875,501.5313" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="453.5313" y2="473.5313"></line><polygon fill="#A80036" points="258.375,463.5313,262.375,473.5313,266.375,463.5313,262.375,467.5313" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="703.7969" y2="723.7969"></line><polygon fill="#A80036" points="258.375,713.7969,262.375,723.7969,266.375,713.7969,262.375,717.7969" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="757.9297" y2="777.9297"></line><polygon fill="#A80036" points="258.375,767.9297,262.375,777.9297,266.375,767.9297,262.375,771.9297" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="111.5" x2="111.5" y1="988.3281" y2="1010.7617"></line><polygon fill="#A80036" points="107.5,1000.7617,111.5,1010.7617,115.5,1000.7617,111.5,1004.7617" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="137.75" x2="111.5" y1="932.1953" y2="932.1953"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="111.5" x2="111.5" y1="932.1953" y2="954.1953"></line><polygon fill="#A80036" points="107.5,944.1953,111.5,954.1953,115.5,944.1953,111.5,948.1953" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="221.75" x2="248" y1="932.1953" y2="932.1953"></line><polygon fill="#A80036" points="244,980.7617,248,990.7617,252,980.7617,248,984.7617" style="stroke: #A80036; stroke-width: 1.5;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="248" x2="248" y1="932.1953" y2="1035.7617"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="248" x2="179.75" y1="1035.7617" y2="1035.7617"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="1035.7617" y2="1050.7617"></line><polygon fill="#A80036" points="175.75,1040.7617,179.75,1050.7617,183.75,1040.7617,179.75,1044.7617" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="900.1953" y2="920.1953"></line><polygon fill="#A80036" points="175.75,910.1953,179.75,920.1953,183.75,910.1953,179.75,914.1953" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="1084.8945" y2="1104.8945"></line><polygon fill="#A80036" points="175.75,1094.8945,179.75,1104.8945,183.75,1094.8945,179.75,1098.8945" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="1139.0273" y2="1159.0273"></line><polygon fill="#A80036" points="175.75,1149.0273,179.75,1159.0273,183.75,1149.0273,179.75,1153.0273" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="345" x2="345" y1="900.1953" y2="920.1953"></line><polygon fill="#A80036" points="341,910.1953,345,920.1953,349,910.1953,345,914.1953" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="200.875" x2="179.75" y1="844.0625" y2="844.0625"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="844.0625" y2="866.0625"></line><polygon fill="#A80036" points="175.75,856.0625,179.75,866.0625,183.75,856.0625,179.75,860.0625" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="323.875" x2="345" y1="844.0625" y2="844.0625"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="345" x2="345" y1="844.0625" y2="866.0625"></line><polygon fill="#A80036" points="341,856.0625,345,866.0625,349,856.0625,345,860.0625" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="179.75" y1="1193.1602" y2="1198.1602"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="179.75" x2="262.375" y1="1198.1602" y2="1198.1602"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="1198.1602" y2="1213.1602"></line><polygon fill="#A80036" points="258.375,1203.1602,262.375,1213.1602,266.375,1203.1602,262.375,1207.1602" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="812.0625" y2="832.0625"></line><polygon fill="#A80036" points="258.375,822.0625,262.375,832.0625,266.375,822.0625,262.375,826.0625" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="1247.293" y2="1267.293"></line><polygon fill="#A80036" points="258.375,1257.293,262.375,1267.293,266.375,1257.293,262.375,1261.293" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="192.875" x2="182.875" y1="1333.4258" y2="1333.4258"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="182.875" x2="182.875" y1="1333.4258" y2="1355.4258"></line><polygon fill="#A80036" points="178.875,1345.4258,182.875,1355.4258,186.875,1345.4258,182.875,1349.4258" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="331.875" x2="341.875" y1="1333.4258" y2="1333.4258"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="341.875" x2="341.875" y1="1333.4258" y2="1355.4258"></line><polygon fill="#A80036" points="337.875,1345.4258,341.875,1355.4258,345.875,1345.4258,341.875,1349.4258" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="182.875" x2="182.875" y1="1389.5586" y2="1407.5586"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="182.875" x2="250.375" y1="1407.5586" y2="1407.5586"></line><polygon fill="#A80036" points="240.375,1403.5586,250.375,1407.5586,240.375,1411.5586,244.375,1407.5586" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="341.875" x2="341.875" y1="1389.5586" y2="1407.5586"></line><line style="stroke: #A80036; stroke-width: 1.5;" x1="341.875" x2="274.375" y1="1407.5586" y2="1407.5586"></line><polygon fill="#A80036" points="284.375,1403.5586,274.375,1407.5586,284.375,1411.5586,280.375,1407.5586" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="1301.4258" y2="1321.4258"></line><polygon fill="#A80036" points="258.375,1311.4258,262.375,1321.4258,266.375,1311.4258,262.375,1315.4258" style="stroke: #A80036; stroke-width: 1.0;"></polygon><line style="stroke: #A80036; stroke-width: 1.5;" x1="262.375" x2="262.375" y1="1419.5586" y2="1439.5586"></line><polygon fill="#A80036" points="258.375,1429.5586,262.375,1439.5586,266.375,1429.5586,262.375,1433.5586" style="stroke: #A80036; stroke-width: 1.0;"></polygon></g></svg>
+      </div>
+<h3 id="runWorker（Worker中调用，运行线程）">runWorker（Worker中调用，运行线程）</h3>
+<p>run 方法中，是调用 addWorker(this),开启循环 loop：</p>
+<p>while 循环捞取任务</p>
+<p>加锁锁，设置不允许被其他线程中断</p>
+<p>当捞取的任务为 null 时，表示当前线程可以被销毁了，则执行<font style="color:#080808;background-color:#ffffff;">processWorkerExit 方法，退出线程</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">当捞取的任务不为 bull</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">若线程池已经被中断，则也中断当前的线程</font></p>
+<p>执行前置处理函数<font style="color:#080808;background-color:#ffffff;">beforeExecute</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">执行目标任务的 run 方法</font></p>
+<p><font style="color:#080808;background-color:#ffffff;">执行后置处理函数</font><font style="color:#080808;background-color:#ffffff;">afterExecute</font></p>
+<p>释放锁，设置可以被其他线程中断</p>
+<h1>最佳实践</h1>
+<h2 id="线程数设置">线程数设置</h2>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1709654497659-4c3a1750-8736-4c35-80bb-742b52fc8d3b.png" alt=""></p>
+<h3 id="N-1-CPU密集型">N+1(CPU密集型)</h3>
+<p>1 是指为了避免CPU缺页中断，导致的CPU空闲，所以多了一个线程，去执行</p>
+<h3 id="2N（IO密集型）">2N（IO密集型）</h3>
+<h2 id="和ThreadLocal一起使用的坑">和ThreadLocal一起使用的坑</h2>
+<p>由于线程池会共享线程，因此，从ThreadLocal中获取到数据，可能是上一个使用线程的场景留下的数据，有坑，需要及时remove掉</p>
+<p>父子线程无法继承ThreadLocal中的值，可以使用<font style="color:#080808;background-color:#ffffff;">InheritableThreadLocal，但也只能在首次设置的时候，才能给子线程设值</font></p>
+<h1></h1>
+<h1>参考文档：</h1>
+<p>1、硬核干货：4W字从源码上分析JUC线程池ThreadPoolExecutor的实现原理<a target="_blank" rel="noopener" href="https://www.throwx.cn/2020/08/23/java-concurrency-thread-pool-executor/">https://www.throwx.cn/2020/08/23/java-concurrency-thread-pool-executor/</a></p>
+<p>2、虚拟线程</p>
+<p><a target="_blank" rel="noopener" href="https://javaguide.cn/java/concurrent/virtual-thread.html">https://javaguide.cn/java/concurrent/virtual-thread.html</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">王利康</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://wanglikang.github.io/2024/09/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">http://wanglikang.github.io/2024/09/01/%E7%BA%BF%E7%A8%8B%E6%B1%A0/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">王利康</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                                    <span class="chip bg-color">并发编程</span>
+                                </a>
+                            
+                                <a href="/tags/JVM%E5%B9%B6%E5%8F%91/">
+                                    <span class="chip bg-color">JVM并发</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/09/01/Synchronized/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="Synchronized">
+                        
+                        <span class="card-title">Synchronized</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="post-category">
+                                    并发编程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                    <a href="/tags/JVM%E5%B9%B6%E5%8F%91/">
+                        <span class="chip bg-color">JVM并发</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/09/01/Future%E7%9B%B8%E5%85%B3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="Future相关">
+                        
+                        <span class="card-title">Future相关</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/" class="post-category">
+                                    并发编程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">
+                        <span class="chip bg-color">并发编程</span>
+                    </a>
+                    
+                    <a href="/tags/JVM%E5%B9%B6%E5%8F%91/">
+                        <span class="chip bg-color">JVM并发</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2020-2024</span>
+            
+            <a href="/about" target="_blank">王利康</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/wanglikang" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1024196018@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1024196018" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1024196018" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/libs/background/ribbon.min.js" async="async"></script>
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

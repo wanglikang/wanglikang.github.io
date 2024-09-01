@@ -1,0 +1,1313 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="AnalyticDB, 网址的关键字，支持多个">
+    <meta name="description" content="分析型数据库、数据仓库
+内部初名 Garuda，又名 ADS
+整体架构
+读写分离架构
+计算存储分离
+冷热数据分离
+视角 1
+前端节点（FN)
+写入节点（BN）
+计算节点（CN）
+视角 2
+
+第一层是接入层，由Mulit-Master可线性扩">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>AnalyticDB | 记录、分享</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+
+    <!-- Start: PlantUML -->
+    <style type="text/css" rel="stylesheet">
+      .plantuml-container {
+        width: 100%;
+        overflow: auto;
+        text-align: center;
+      }
+
+      .plantuml-container > svg {
+        max-width: 100%; height: unset !important;
+      }
+
+      .plantuml-container > img {
+        max-width: 100%; height: unset !important;
+      }
+    </style>
+    <!-- End: PlantUML -->
+    </head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">记录、分享</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">记录、分享</div>
+        <div class="logo-desc">
+            
+            记录一下的描述,主要用于SEO
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/wanglikang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/wanglikang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">AnalyticDB</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                                <span class="chip bg-color">中间件</span>
+                            </a>
+                        
+                            <a href="/tags/NewSQL/">
+                                <span class="chip bg-color">NewSQL</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="post-category">
+                                中间件
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-09-01
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <p>分析型数据库、数据仓库</p>
+<p>内部初名 Garuda，又名 ADS</p>
+<h1>整体架构</h1>
+<h2 id="读写分离架构">读写分离架构</h2>
+<p>计算存储分离</p>
+<p>冷热数据分离</p>
+<h3 id="视角-1">视角 1<img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722269056133-b3c27c4d-53c6-424f-9eb2-a5c90b067226.webp" alt=""></h3>
+<p>前端节点（FN)</p>
+<p>写入节点（BN）</p>
+<p>计算节点（CN）</p>
+<h3 id="视角-2">视角 2</h3>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1722253380127-327d8f37-0c5e-422c-bb7f-1d0fbf935522.png" alt=""></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第一层是接入层</font></strong><font style="color:rgb(0, 0, 0);">，由Mulit-Master可线性扩展的协调节点构成，主要负责协议层接入、SQL解析和优化、实时写入Sharding、数据调度和查询调度。</font></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第二层是计算引擎</font></strong><font style="color:rgb(0, 0, 0);">，具备分布式MPP+DAG融合执行能力，结合智能优化器，可支持高并发和复杂SQL混合负载，同时借助于云原生基础设施，计算节点实现了弹性调度，可根据业务需求做到分钟级甚至秒级扩展，达到了资源的有效利用。  </font></p>
+<p><strong><font style="color:rgb(0, 0, 0);">第三层是存储引擎，</font></strong><font style="color:rgb(0, 0, 0);">基于Raft协议实现的分布式实时强一致高可用存储引擎，通过数据分片和Multi-Raft实现并行，利用分层存储实现冷热分离降低成本，通过行列存储和智能索引达到极致性能。</font></p>
+<p><font style="color:rgb(0, 0, 0);"></font></p>
+<h1></h1>
+<h2 id="关键技术">关键技术</h2>
+<p>1、智能 sql 优化器</p>
+<p>2、曦和计算引擎</p>
+<p>3、玄武存储引擎</p>
+<p>4、读写节点分离</p>
+<p>5、硬件加速</p>
+<h1>静态分层模块</h1>
+<h2 id="存储层（玄武引擎）">存储层（玄武引擎）</h2>
+<p>整体存储架构</p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/png/308915/1722253317389-851c77b5-a5fc-41d5-b091-14ec983a0a19.png" alt=""></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722336889091-d43c28c5-32b7-475e-beda-ab56ab3e75f4.webp" alt=""></p>
+<ul>
+<li>FrontNode（FN）</li>
+</ul>
+<p>包括 W-FN（负责写入）、R-FN（负责查询）</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">FRONTNODE 主要负责SQL解析、查询结果汇聚，实时数据写入、DDL等功能。所有FN完全对等，节点之间完全无耦合，无单点故障。</font></p>
+<ul>
+<li>BufferNode（BN）</li>
+</ul>
+<p>分布式的队列系统</p>
+<p>支持多副本</p>
+<p>master-slave 架构，可快速 failover</p>
+<p>failover 期间，会有短暂的不可写，但是 CN 在此期间可以直接读取 pangu 的数据（写入宕机不影响查询）</p>
+<ul>
+<li>ComputeNode（CN）</li>
+</ul>
+<p>计算节点，承担计算 + 存储的功能</p>
+<p>不在写入链路上，不影响写入（流量反压的时候可能会）</p>
+<p>每个节点上都包含历史的 cache 数据和实时数据两部分：加速分区列计算，避免数据 shuffle 和跨机计算</p>
+<p>会定期去同步本地存储引擎中和 BN 有差异的数据</p>
+<h3 id="发展历程">发展历程</h3>
+<h4 id="第一代：普通的-OLTP-引擎">第一代：普通的 OLTP 引擎</h4>
+<p>借鉴 H2 数据库的存储引擎：<font style="color:#DF2A3F;">行存 + B+索引</font>、支持事务</p>
+<h4 id="第二代：列存">第二代：列存</h4>
+<p>列存的原理示意图</p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722418899192-b830c3fc-e808-4171-ba48-a072e872a467.webp" alt=""></p>
+<p>优点 ：压缩比高、自由选择压缩算法   -&gt; 更低的 io 延迟</p>
+<p>列存的天然优势：io 剪裁，只读取感兴趣的数据列</p>
+<p>ADB 的列存，增加了三部分内容：<font style="color:rgba(25, 26, 31, 0.9);">分区、列和块三层meta</font></p>
+<p><strong><font style="color:rgba(25, 26, 31, 0.9);">1、 分分区meta</font></strong><font style="color:rgba(25, 26, 31, 0.9);">主要包括表的行数和列数，主要解决count(*)的性能问题。</font></p>
+<p><strong><font style="color:rgba(25, 26, 31, 0.9);">2、 列meta主要包括：</font></strong></p>
+<ul>
+<li><font style="color:rgba(25, 26, 31, 0.9);">max、min：可以有效解决二级分区快速筛选</font></li>
+<li><font style="color:rgba(25, 26, 31, 0.9);">sum，count，count distinct， null count： 可以加速sum/count/distinct 计算，同时该metrics可以提供给优化器选择最优执行计划。</font></li>
+<li><font style="color:rgba(25, 26, 31, 0.9);">Dict： 针对cardinality较少的列（例如性别，星座），保存字典在该meta中，数据文件中保存字典序号（int 类型），既大大压缩了存储空间，又可以加速groupby、distinct 等算子的计算性能。</font></li>
+</ul>
+<p><strong><font style="color:rgba(25, 26, 31, 0.9);">3、 块meta主要包括：</font></strong></p>
+<ul>
+<li><font style="color:rgba(25, 26, 31, 0.9);">max、min： 解决无索引条件下的，快速过滤功能。如果某条件与max、min无交集，则可以快速跳过该块。同时可以提高max，min算子的计算性能。</font></li>
+<li><font style="color:rgba(25, 26, 31, 0.9);">sum： 提高sum算子计算性能。</font></li>
+<li><font style="color:rgba(25, 26, 31, 0.9);">null count：支持快速filter 空值列。</font></li>
+</ul>
+<p><font style="color:rgba(25, 26, 31, 0.9);"></font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">其他：</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">1、 增加了二级分区。支持数据的生命周期管理，也即能够设置数据的保存期限，自动根据规则淘汰过期数据；</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">2、 实时化。这是另一个很大的话题，我们单独开了文章来介绍。请参见《超大规模的立即可见实时写入》。</font></p>
+<h4 id="font-style-color-rgba-25-26-31-0-9-第三代：行列混存-font"><font style="color:rgba(25, 26, 31, 0.9);">第三代：行列混存</font></h4>
+<p>解决了的问题：</p>
+<p>1、OLTP 的点查性能问题</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">解决办法： select *等由列存的完全随机读转化为了顺序读。</font></p>
+<p>2、OLAP 的多维分析问题</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">解决办法：进行单列IO时将列存的顺序读转化为了顺序跳读；进行多列IO时则将随机读转化为了顺序读。</font></p>
+<p>3、写入大吞吐的问题：每天<font style="color:rgba(25, 26, 31, 0.9);">千亿级别实时数据写入	</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">解决办法：列存时的随机写被转化为了顺序写。</font></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722419298990-2235dbc6-1d5d-4d92-94e9-cf764420d1ad.webp" alt=""></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">AnalyticDB也支持了另外两项重要功能：</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">1）clustered by预排序功能。该功能将某一列或某几列的数据进行排序后，存放到磁盘上。从而保证了相同数据在磁盘上连续存储。对于等值查询、范围查询都能够大幅减少需要IO的block数，实现查询加速。</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">2）分层存储。将SSD盘作为本地cache，确保热点数据查询性能，同时降低了总体存储成本。</font></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722419461285-fe301b6f-6757-4dd1-80e0-dea9ec462076.webp" alt=""></p>
+<h4 id="第四代：定长存储">第四代：定长存储</h4>
+<p><font style="color:rgba(25, 26, 31, 0.9);">即以byte为单位将block真正变为定长。</font></p>
+<p>解决结构化、非结构化数据存储问题</p>
+<h4 id="下一代：HTAP">下一代：HTAP</h4>
+<p>展望</p>
+<h3 id="索引">索引</h3>
+<h4 id="全索引">全索引</h4>
+<p>多列、多条件同时走索引，快速多路合并，可以在毫秒级内找出结果集</p>
+<p>根据成本估计，智能选择走索引还是扫描</p>
+<h4 id="支持的索引类型">支持的索引类型</h4>
+<p>1、 倒排索引</p>
+<p>基于 lucene</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);"> 目前Lucene采用Prefix+Sufix字典压缩term，倒排链中保存的是递增行号集合，采用Delta+Vint压缩算法，压缩比可以达到1：4。同时所有查询过程为顺序读，解压速度达到900MB/s。</font></p>
+<p>2、Bitmap 索引</p>
+<p>对于散列度较低的列，自动构建 bitmap 索引，降低存储空间</p>
+<p>3、 范围索引</p>
+<p>解决 lucene 的范围索引问题</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">先生成直方图数据分布，将所有数据切分为多个互不相交的区间，并将每个区间作为一个Bitmap索引</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">查询时，范围条件被拆成多个or 条件的组合。例如数据被切成[0,10),[10,20), [30,40),[40,50)等区间，</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">如：条件 x &gt; 5 and x &lt; 45，会被转换为 (5, 10)，[10, 20), [20, 30),[30, 40), [40, 45)多个or条件。</font></p>
+<p>4、全文索引</p>
+<p>5、向量索引</p>
+<p>6、json 索引</p>
+<p>。。。</p>
+<h4 id="索引优化">索引优化</h4>
+<p><font style="color:rgba(25, 26, 31, 0.9);">1、 索引结果缓存</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">2、CBO（基于代价优化）</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">根据 index 中的统计信息</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">根据 meta 中的统计信息</font></p>
+<p>3、无索引查询优化</p>
+<p>多没有构建索引的列，也能根据统计，做一些加速，减少 io</p>
+<p>4、流式归并</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">传统的数据处理系统在所有查询条件计算完毕后，将结果集一次性合并完毕。</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">而AnalyticDB采用了流式归并方法，按需将结果集进行合并。该方法的一大优点是：一旦满足了计算需求，就会触发早停逻辑，避免了不必要的结果合所带来的CPU、内存消耗 。</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">例子：</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">where ( (姓名=‘张三’ AND 性别!= ‘女’ ) AND (籍贯 = ‘山西’ OR 籍贯 = ‘安徽’)) OR (工作 like ‘建筑%’  OR 工作like ‘%酒吧%’)</font></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722422548370-8754f737-384d-4a4d-9583-170c26a7da2f.webp" alt=""></p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722422552428-cbdd1348-ba6f-45c5-9f57-cecd71726c7b.webp" alt=""></p>
+<p>5、结构化、非结构化的融合检索</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">能够在进行等值、范围、多值列检索的同时，进行文本的匹配和计算，为大数据分析带来了新的可能性</font></p>
+<h2 id="SQL-解析层">SQL 解析层</h2>
+<h3 id="主要的优化手段">主要的优化手段</h3>
+<p>1、执行下推</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">执行下推是将SQL中可以依赖存储能力的关系代数计算进行提取，将查询计划等价转换为两部分，一部分在计算层执行，一部分下推给存储层执行</font></p>
+<p>2、基于代价的查询优化器</p>
+<p>3、查询计划缓存及调整</p>
+<h3 id="执行计划">执行计划</h3>
+<h4 id="传统的火山执行引擎">传统的火山执行引擎</h4>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722423394376-3f5c7b5a-51b6-4c3d-a316-79321b9fd080.webp" alt=""></p>
+<p>生成一系列的算子（operator)</p>
+<p>存在的问题：</p>
+<p>1、代价很高的解释开销</p>
+<p>2、较低的 cpu cache 命中率</p>
+<p>next()是虚函数，导致 cpu 预测错误，耗费大量无用的 cpu 时间</p>
+<h3 id="基于字节码生成技术的算子优化">基于字节码生成技术的算子优化</h3>
+<p>使用 asm 技术，对 sql 算子进行特定的优化，如 for 循环、switch 等</p>
+<h2 id="计算层（Lambda-结构）">计算层（Lambda 结构）</h2>
+<p>每个 CN 节点都无状态</p>
+<p>每个 CN 内部，数据分为两部分：</p>
+<ul>
+<li>全量
+<ul>
+<li>全索引</li>
+<li>列存储</li>
+</ul>
+</li>
+</ul>
+<p>全量数据走全索引查询</p>
+<ul>
+<li>增量</li>
+</ul>
+<p>分两步查询：</p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">1）利用block 级别索引剪裁无用block；</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">2）对有用数据块扫描；</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">两部分的结果汇总作为该分区的查询结果。</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);"></font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">会定期合并增量数据  -&gt; 全量数据（重新排序 + 重建索引）</font></p>
+<p><font style="color:rgba(25, 26, 31, 0.9);">离线完成，不影响 CN 的查询（解耦）</font></p>
+<h3 id=""></h3>
+<h2 id="硬件加速">硬件加速</h2>
+<p>使用 GPU 对一些可并行的逻辑进行加速</p>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722424520093-7730136a-4406-4572-877b-1565a7474ef6.webp" alt=""></p>
+<p>1、 使用 gpu 进行聚合、join、hash 等计算</p>
+<p>2、cpu、gpu 混合计算</p>
+<p>执行计划层面、算子执行层面</p>
+<p>3、gpu 代码动态生成技术</p>
+<p>基于 llvm，根据逻辑执行计划，动态生成 gpu 物理执行计划</p>
+<p>4、显存管理技术</p>
+<p>5、GPU 解压技术</p>
+<p>用 gpu 来进行数据解压缩，大幅提升性能</p>
+<h1>动态流程</h1>
+<h2 id="实时写入流程">实时写入流程</h2>
+<p><img src="https://intranetproxy.alipay.com/skylark/lark/0/2024/webp/308915/1722337555445-d2632d38-4954-45ec-993a-05523c3a7ab8.webp" alt=""></p>
+<p>可横向扩展 FN、BN</p>
+<p>写入不受制于某节点，完全松耦合、易扩展</p>
+<p>注意：</p>
+<p>1、BN 会定时将数据推送给 CN</p>
+<p>2、CN 也会在需要的时候去 BN 里查数据</p>
+<h3 id="font-style-color-rgba-25-26-31-0-9-性能-font"><font style="color:rgba(25, 26, 31, 0.9);">性能</font></h3>
+<p><font style="color:rgba(25, 26, 31, 0.9);">写入速度上，单DB（20个FN）写入速度达到280W条每秒，每天入库数据量1600亿条，同时写入数据大小达到600MB每秒。</font></p>
+<h2 id="查询过程">查询过程</h2>
+<p>解析层生成执行计划（一个 DAG），然后生成物理执行计划（一系列的 task、operator 等）</p>
+<p>FN 接收到请求，向 BN 收集涉及表的分区和最新写入的版本号</p>
+<p>将查询的请求和版本号一起发给 CN</p>
+<p>CN 对比本地的版本号和请求中的版本</p>
+<p>若 CN 本地的版本号小于请求的版本，则去 BN 中拉取最新的数据（<font style="color:#DF2A3F;">可以保证写入实时可见</font>）</p>
+<p>若 CN 本地的版本号大于等于请求的版本，则直接用 CN 本地的最新版本</p>
+<p>然后进行数据查询操作</p>
+<h1>参考文档</h1>
+<p>1、<a target="_blank" rel="noopener" href="https://grow.alibaba-inc.com/course/4800010774428817/section/1830000000000324?spm=ata.23639746.0.0.cd145de7lcay5p">https://grow.alibaba-inc.com/course/4800010774428817/section/1830000000000324?spm=ata.23639746.0.0.cd145de7lcay5p</a></p>
+<p>2、ADB 的论文</p>
+<p><a target="_blank" rel="noopener" href="https://www.vldb.org/pvldb/vol12/p2059-zhan.pdf">https://www.vldb.org/pvldb/vol12/p2059-zhan.pdf</a></p>
+<p>3、<a target="_blank" rel="noopener" href="https://ata.atatech.org/articles/11000111313?layout=%2Fvelocity%2Flayout%2Fblank.vm#yetk7VY2"><strong>No.4.深度解析AnalyticDB-玄武存储引擎-支撑每秒千万级数据写入的读写分离架构</strong></a></p>
+<p>4、<a target="_blank" rel="noopener" href="https://ata.atatech.org/articles/11000111315?layout=%2Fvelocity%2Flayout%2Fblank.vm">No.8深度解析AnalyticDB-硬件加速- 如何利用新硬件加速OLAP查询</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">王利康</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://wanglikang.github.io/2024/09/01/AnalyticDB/">http://wanglikang.github.io/2024/09/01/AnalyticDB/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">王利康</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                                    <span class="chip bg-color">中间件</span>
+                                </a>
+                            
+                                <a href="/tags/NewSQL/">
+                                    <span class="chip bg-color">NewSQL</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/09/01/AnalyticDB%20%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="AnalyticDB 最佳实践">
+                        
+                        <span class="card-title">AnalyticDB 最佳实践</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="post-category">
+                                    中间件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                        <span class="chip bg-color">中间件</span>
+                    </a>
+                    
+                    <a href="/tags/NewSQL/">
+                        <span class="chip bg-color">NewSQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/09/01/MongoDB%20%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="MongoDB 常用语法">
+                        
+                        <span class="card-title">MongoDB 常用语法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="post-category">
+                                    中间件
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+                        <span class="chip bg-color">中间件</span>
+                    </a>
+                    
+                    <a href="/tags/NoSQL/">
+                        <span class="chip bg-color">NoSQL</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2020-2024</span>
+            
+            <a href="/about" target="_blank">王利康</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link ">
+    <a href="https://github.com/wanglikang" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:1024196018@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=1024196018" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 1024196018" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/star.js"><\/script>');
+            }
+        </script>
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+    
+    <script type="text/javascript" size="150" alpha='0.6'
+        zIndex="-1" src="/libs/background/ribbon.min.js" async="async"></script>
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
