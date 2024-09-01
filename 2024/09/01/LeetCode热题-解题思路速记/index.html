@@ -4,8 +4,17 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="LeetCode题解速记, 网址的关键字，支持多个">
-    <meta name="description" content="">
+    <meta name="keywords" content="LeetCode热题-解题思路速记, 网址的关键字，支持多个">
+    <meta name="description" content="来源CodeTop
+按照热度顺序
+字节的to题目
+1-10
+3.无重复字符的最长子串
+滑动窗口，临时变量，hash表记录最近一次出现的下标
+
+临时变量记录已经遍历过的最长的不重复子串
+
+遍历数组：一旦发现有重复的，就重置滑动窗口的起始位置到">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +26,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>LeetCode题解速记 | 记录、分享</title>
+    <title>LeetCode热题-解题思路速记 | 记录、分享</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -354,12 +363,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">LeetCode题解速记</h1>
+                    <h1 class="description center-align post-title">LeetCode热题-解题思路速记</h1>
                 </div>
             </div>
         </div>
@@ -383,12 +392,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E7%AE%97%E6%B3%95%E9%A2%98/">
-                                <span class="chip bg-color">算法题</span>
-                            </a>
-                        
                             <a href="/tags/LeetCode/">
                                 <span class="chip bg-color">LeetCode</span>
+                            </a>
+                        
+                            <a href="/tags/%E5%88%B7%E9%A2%98/">
+                                <span class="chip bg-color">刷题</span>
                             </a>
                         
                     </div>
@@ -399,8 +408,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E5%88%B7%E9%A2%98/" class="post-category">
-                                刷题
+                            <a href="/categories/LeetCode/" class="post-category">
+                                LeetCode
                             </a>
                         
                     </div>
@@ -433,7 +442,227 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <p><a target="_blank" rel="noopener" href="https://codeTop.cc">来源CodeTop</a></p>
+<h1>按照热度顺序</h1>
+<h2 id="字节的to题目">字节的to题目</h2>
+<h2 id="1-10">1-10</h2>
+<h3 id="3-无重复字符的最长子串">3.无重复字符的最长子串</h3>
+<pre><code>滑动窗口，临时变量，hash表记录最近一次出现的下标
+
+临时变量记录已经遍历过的最长的不重复子串
+
+遍历数组：一旦发现有重复的，就重置滑动窗口的起始位置到当前位置
+</code></pre>
+<h3 id="146、LRU缓存机制">146、LRU缓存机制</h3>
+<pre><code>1、hashmap + Deque
+    使用deque来保存最近使用的元素，每次读写、，都调整deque的元素
+        peekFirst、pollFirst
+
+2、LinkedHashMap  + 自定义removeEldestEntry
+</code></pre>
+<h3 id="25、K个一组反转链表">25、K个一组反转链表</h3>
+<pre><code>k个一组，反转多次
+最后判断反转的节点个数若不等于k，则在翻转一次，转回来
+</code></pre>
+<h3 id="206-反转链表">206.反转链表</h3>
+<h3 id="215、数组中的第K个最大元素">215、数组中的第K个最大元素</h3>
+<pre><code>手写快排？三路快排？
+</code></pre>
+<h3 id="15、三数之和">15、三数之和</h3>
+<pre><code>先排序，然后再从左到右遍历，每个小于0的数字target，在右边找到两个相加和等于-target的和，此刻的三个数字，即为一个结果
+</code></pre>
+<h3 id="103、二叉树的锯齿形层次遍历">103、二叉树的锯齿形层次遍历</h3>
+<pre><code>用两个栈、两个队列，都行
+</code></pre>
+<h3 id="200、岛屿数量">200、岛屿数量</h3>
+<pre><code>用一个二维数组，保存是否已经被访问过
+用一个dfs，表示当前坐标是否是未被访问过的陆地，向上下左右深度搜索
+</code></pre>
+<h3 id="121、买卖股票的最佳时机">121、买卖股票的最佳时机</h3>
+<pre><code>找到当前的最小值，遍历过程中更新，然后求利润，并求利润最大值
+</code></pre>
+<h3 id="33、搜索旋转排序数组">33、搜索旋转排序数组</h3>
+<pre><code>二分查找 l、r，针对target 和 mid值，进行区分
+相等，则找到，返回
+不相等，则具体判断target和mid值、左边界、右边界的大小，调整l、r
+最后，需要对l、r相等的情况判断
+</code></pre>
+<h2 id="11-20">11-20</h2>
+<h3 id="1、两数之和">1、两数之和</h3>
+<pre><code>暴力搜索
+使用hash表
+</code></pre>
+<h3 id="236、二叉树的最近公共祖先">236、二叉树的最近公共祖先</h3>
+<pre><code>用两个队列，保存两个节点的访问路径
+然后依次弹出，找最后一个相等的节点，即为所求
+</code></pre>
+<h3 id="42、接雨水-困难">42、接雨水  (困难)</h3>
+<pre><code>解法1:
+    leftMax[i]：表示height[i]左侧的最大高度
+    rightMax[i]:表示height[i]右侧的最大高度
+    每个点的接雨水量，等于 min(leftMax[i] ,rightMax[i]) - height[i]
+    然后累加即可
+
+解法2： 单调栈
+    栈中保存的，应该是上一个『山头』，即递减的第一个元素
+        栈为空：入栈
+        栈顶元素大于当前元素，累加这一层的雨水量
+        栈顶元素等于当前元素：不累计，不出入栈
+        栈顶元素小于当前元素：累加这一层的雨水量，栈顶元素出栈，当前元素入栈
+</code></pre>
+<h3 id="54、螺旋矩阵">54、螺旋矩阵</h3>
+<pre><code>四个方向，写四个打印函数，依次打印即可
+</code></pre>
+<h3 id="5、最长回文子串">5、最长回文子串</h3>
+<pre><code>解法1：
+动态规划
+    dp[i][j] :字符串中从 【i, j】的子串是否为回文子串
+        一次遍历，求出长度为1的回文子串
+        一次遍历，求出长度为2的回文子串
+        预设长度从3开始，扩散求最长的回文子串
+中心扩散
+    对每个字符，求从此字符开始，能扩展到的最长回文子串长度
+</code></pre>
+<h3 id="160、相交链表">160、相交链表</h3>
+<pre><code>分别遍历，求长度，求长度差
+然后长的先走，慢的后走，最终会相遇的
+</code></pre>
+<h3 id="53、最大子数组和">53、最大子数组和</h3>
+<pre><code>简单do
+</code></pre>
+<h3 id="46、全排列">46、全排列</h3>
+<pre><code>用递归
+</code></pre>
+<h3 id="31、下一个排列">31、下一个排列</h3>
+<p>TODO<br>
+先从右向左，找第一个nums[i] &gt; nums[i-1]的下标i，<br>
+然后在i 的右边，找第一个刚大于nums[i-1]的元素下标j<br>
+交换nums[i-1],nums[j]<br>
+最后逆序nums[i:n-1]即可</p>
+<h3 id="23、合并K个排序链表">23、合并K个排序链表</h3>
+<hr>
+<h2 id="21-30">21-30</h2>
+<h3 id="300-最长上升子序列">300. 最长上升子序列</h3>
+<pre><code>用一个数组dp，dp[len] 表示最长上升子序列最长的时候，对应的最后一个数字是多少，遇到比当前元素大的，直接设值，len+1，
+否则，二分查找，找第一个大于当前元素的dp位置，更新进去
+</code></pre>
+<h3 id="199-二叉树的右视图">199. 二叉树的右视图</h3>
+<pre><code>使用两个队列，使用add、poll操作
+</code></pre>
+<h3 id="143-重排链表">143. 重排链表</h3>
+<pre><code>方法1：遍历，使用list保存节点内容，再遍历，改变节点指向
+方法2：先求中点、在反转右边的链表、最后合并左半边和右半边的链表，记得最后避免出现环
+</code></pre>
+<h3 id="20-有效的括号">20. 有效的括号</h3>
+<pre><code>使用栈，进行匹配消消乐
+</code></pre>
+<h3 id="102-二叉树的层序遍历">102. 二叉树的层序遍历</h3>
+<pre><code>一个队列 + 一个遍历报错当前层次的元素个数
+</code></pre>
+<h3 id="88-合并两个有序数组">88. 合并两个有序数组</h3>
+<pre><code>从尾部开始合并
+</code></pre>
+<h3 id="21-合并两个有序链表">21. 合并两个有序链表</h3>
+<pre><code>简单题目
+</code></pre>
+<h3 id="92-反转链表-II">92. 反转链表 II</h3>
+<pre><code>遍历加反转
+</code></pre>
+<h3 id="141-环形链表">141. 环形链表</h3>
+<pre><code>快慢指针，判断是否有环
+</code></pre>
+<h3 id="415-字符串相加">415. 字符串相加</h3>
+<pre><code>模拟即可，记得处理最后的进位
+</code></pre>
+<h2 id="31-40">31-40</h2>
+<h3 id="124-二叉树中的最大路径和">124. 二叉树中的最大路径和</h3>
+<pre><code>递归，针对当前节点，考虑一下三种情况
+仅考虑本节点的值
+考虑左右子节点中其中任一个节点的和本节点值的和
+考虑左右子节点和本节点值的和，取最大值，作为本节点的结果
+最后去全局的最大和
+</code></pre>
+<h3 id="41-缺失的第一个正数-困难-放弃">41. 缺失的第一个正数     (困难)放弃</h3>
+<h3 id="72-编辑距离-困难-放弃">72. 编辑距离            (困难)放弃</h3>
+<h3 id="56-合并区间">56. 合并区间</h3>
+<pre><code>对每个区间，按照开始字段start进行排序，然后依次判断是否可以合并
+需要自定义排序方法
+</code></pre>
+<h3 id="221-最大正方形">221. 最大正方形</h3>
+<pre><code>猜测，使用dp[i][j]，表示以i,j 为右下角时候的正方形中，最大的正方形边长  
+    转移方程为：dp(i,j)=min(dp(i−1,j),dp(i−1,j−1),dp(i,j−1))+1
+    还需要考虑边界情况
+</code></pre>
+<h3 id="148-排序链表">148. 排序链表</h3>
+<pre><code>合并排序
+1、快慢指针，分成两段
+2、对左右两段，进行合并排序
+记得断开两段之间的链接，避免出现环
+</code></pre>
+<h3 id="69-x-的平方根">69. x 的平方根</h3>
+<pre><code>二分查找
+    mid * mid 后和x比较
+注意需要先转换为long，再比较，避免int相乘后溢出为负数
+</code></pre>
+<h3 id="165-比较版本号">165. 比较版本号</h3>
+<pre><code>逗号分割，转换为数字，进行比较
+双指针，遇到.的时候，暂停，进行比较
+</code></pre>
+<h3 id="129-求根到叶子节点数字之和">129. 求根到叶子节点数字之和</h3>
+<pre><code>深度优先搜索，需要将根节点的临时结果带到下一层的子节点中
+需要注意，递归结束返回后，需要将结果*10，再进行后续处理
+</code></pre>
+<h3 id="105-从前序与中序遍历序列构造二叉树">105. 从前序与中序遍历序列构造二叉树</h3>
+<pre><code>先在根据前序的结果，求在中序中的中间位置，分成左右两部分
+然后再依次构建二叉树
+</code></pre>
+<h2 id="41-50">41-50</h2>
+<h3 id="101-对称二叉树">101. 对称二叉树</h3>
+<pre><code>简单递归即可
+迭代的话,用两个队列，对称入队，依次进行比较
+</code></pre>
+<h3 id="补充题4-手撕快速排序">补充题4. 手撕快速排序</h3>
+<pre><code>leetcode上说，需要针对基本有序的数组进行优化
+</code></pre>
+<h3 id="32-最长有效括号-困难">32. 最长有效括号  (困难)</h3>
+<pre><code>用栈，栈中保存遍历过程中，未匹配上的）的下标
+</code></pre>
+<h3 id="22-括号生成">22. 括号生成</h3>
+<pre><code>用深度优先搜索，特殊情况：只有当剩余（ 的个数 小于 ） 的时候，才可以继续dfs进行匹配
+</code></pre>
+<h3 id="93-复原IP地址">93. 复原IP地址</h3>
+<pre><code>回溯 + 剪枝
+</code></pre>
+<h3 id="4-寻找两个正序数组的中位数">4. 寻找两个正序数组的中位数</h3>
+<pre><code>若两个数组长度为n、m,则等价于求第(n+m)/2小的数
+使用二分查找的方法，依次在两个数组中移动指针，并比较大小
+</code></pre>
+<h3 id="76-最小覆盖子串-困难">76. 最小覆盖子串  (困难)</h3>
+<pre><code>滑动窗口 + hash表
+</code></pre>
+<h3 id="39-组合总和">39. 组合总和</h3>
+<h3 id="142-环形链表-II">142. 环形链表 II</h3>
+<h3 id="78-子集">78. 子集</h3>
+<h2 id="51-60">51-60</h2>
+<h3 id="322-零钱兑换">322. 零钱兑换</h3>
+<pre><code>TODO 
+</code></pre>
+<h3 id="1143-最长公共子序列">1143. 最长公共子序列</h3>
+<pre><code>使用动态规划
+</code></pre>
+<h3 id="82-删除排序链表中的重复元素-II">82. 删除排序链表中的重复元素 II</h3>
+<h3 id="162-寻找峰值">162. 寻找峰值</h3>
+<pre><code>二分查找，找到任意一个峰值即可
+</code></pre>
+<h3 id="232-用栈实现队列">232. 用栈实现队列</h3>
+<pre><code>容易
+</code></pre>
+<h3 id="112-路径总和">112. 路径总和</h3>
+<h3 id="94-二叉树的中序遍历">94. 二叉树的中序遍历</h3>
+<h3 id="2-两数相加">2. 两数相加</h3>
+<h3 id="394-字符串解码">394. 字符串解码</h3>
+<h3 id="19-删除链表的倒数第N个节点">19. 删除链表的倒数第N个节点</h3>
+
                 
             </div>
             <hr/>
@@ -459,7 +688,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://wanglikang.github.io/2024/09/01/keepCoding-bt1/">http://wanglikang.github.io/2024/09/01/keepCoding-bt1/</a>
+                    <a href="http://wanglikang.github.io/2024/09/01/LeetCode%E7%83%AD%E9%A2%98-%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E9%80%9F%E8%AE%B0/">http://wanglikang.github.io/2024/09/01/LeetCode%E7%83%AD%E9%A2%98-%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E9%80%9F%E8%AE%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -497,12 +726,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E7%AE%97%E6%B3%95%E9%A2%98/">
-                                    <span class="chip bg-color">算法题</span>
-                                </a>
-                            
                                 <a href="/tags/LeetCode/">
                                     <span class="chip bg-color">LeetCode</span>
+                                </a>
+                            
+                                <a href="/tags/%E5%88%B7%E9%A2%98/">
+                                    <span class="chip bg-color">刷题</span>
                                 </a>
                             
                         </div>
@@ -585,6 +814,55 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
+                <a href="/2024/09/01/%E5%89%91%E6%8C%87offer-%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF%E9%80%9F%E8%AE%B0/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="剑指offer-解题思路速记">
+                        
+                        <span class="card-title">剑指offer-解题思路速记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%88%86%E7%B1%BB%E7%9B%AE%E5%BD%95%E5%BF%85%E5%A1%AB/" class="post-category">
+                                    分类目录必填
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E8%BD%AF%E4%BB%B6/">
+                        <span class="chip bg-color">软件</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
                 <a href="/2024/09/01/JDK11%E5%8D%87%E7%BA%A7/">
                     <div class="card-image">
                         
@@ -601,9 +879,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -627,43 +905,6 @@
                         <span class="chip bg-color">JDK11</span>
                     </a>
                     
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2024/09/01/Web-HTTPS(%E5%8A%A0%E5%AF%86%E5%8E%9F%E7%90%86%EF%BC%89/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
-                        
-                        <span class="card-title"></span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-09-01
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            王利康
-                            
-                        </span>
-                    </div>
                 </div>
                 
             </div>
